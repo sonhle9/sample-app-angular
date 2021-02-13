@@ -11,6 +11,7 @@ import { UsersNewComponent } from './users-new/users-new.component';
 import { UsersShowComponent } from './users-show/users-show.component';
 import { UsersShowFollowersComponent } from './users-show-followers/users-show-followers.component';
 import { UsersShowFollowingComponent } from './users-show-following/users-show-following.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: "", component: StaticPagesHomeComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: "signup", component: UsersNewComponent },
   { path: "login", component: SessionsNewComponent },
   { path: "users/:id/following", component: UsersShowFollowingComponent },
-  { path: "users/:id/followers", component: UsersShowFollowersComponent }
+  { path: "users/:id/followers", component: UsersShowFollowersComponent },
+  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
 
 @NgModule({
