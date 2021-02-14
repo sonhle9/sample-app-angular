@@ -17,33 +17,34 @@
           id="bs-example-navbar-collapse-1">
         <li><a routerLink="/" routerLinkActive="active">Home</a></li>
         <li><a routerLink="/help" routerLinkActive="active">Help</a></li>
-        <!-- {
-          userData.loading ? (
-            <li><a href="/">Loading</a></li>
-          ) : userData.error ? (
-            <li><a href="/">{userData.error}</a></li>
-          ) : userData.users ? (
-            <React.Fragment>
-            <li><NavLink to="/users">Users</NavLink></li>
-            <li className="dropdown">
-              <a href="/" className="dropdown-toggle" data-toggle="dropdown">
-                Account <b className="caret"></b>
-              </a>
-              <ul className="dropdown-menu">
-                <li><NavLink to={"/users/"+userData.users.id}>Profile</NavLink></li>
-                <li><NavLink to={"/users/"+userData.users.id+"/edit"}>Settings</NavLink></li>
-                <li className="divider"></li>
-                <li>
-                  {/*<button onClick={onClick}>Logout</button>*/}
-                  <a href="#logout" onClick={onClick}>Logout</a>
-                </li>
-              </ul>
-            </li>
-            </React.Fragment>
-          ) : (
-            <li><NavLink to="/login">Log in</NavLink></li>
-          )
-        } -->
+
+        <h2 *ngIf="loading; else nameElseBlock">
+          <li><a href="/">Loading</a></li>
+        </h2>
+        <ng-template #nameElseBlock>
+          <li><a href="/">Lỗi</a></li>
+        </ng-template>
+
+        <div *ngIf="displayName; then thenBlock; else elseBlock"></div>
+        <ng-template #thenBlock>
+          <li><a routerLink="/users" routerLinkActive="active">Users</a></li>
+          <li className="dropdown">
+            <a href="/" className="dropdown-toggle" data-toggle="dropdown">
+              Account <b className="caret"></b>
+            </a>
+            <ul className="dropdown-menu">
+              <li><a routerLink="/users/1" routerLinkActive="active">Profile</a></li>
+              <li><a routerLink="/users/1/edit" routerLinkActive="active">Settings</a></li>
+              <li className="divider"></li>
+              <li>
+                <a routerLink="#logout" (click)="logMessage()">Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ng-template>
+        <ng-template #elseBlock>
+          <li><a routerLink="/login">Log in</a></li> 
+        </ng-template>
       </ul>
     </nav>
   </div>

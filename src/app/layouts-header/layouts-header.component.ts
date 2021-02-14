@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutsHeaderComponent implements OnInit {
 
+  public loading = true;
+  public displayName = true;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  logMessage(){
+    console.log("log out")
   }
 
 }
