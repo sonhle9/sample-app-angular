@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaticPagesHomeComponent implements OnInit {
 
+  public color = "red";
+  public colors = ["red","blue","green","yellow"]
+
   constructor() { }
 
   ngOnInit(): void {

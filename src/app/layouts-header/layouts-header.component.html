@@ -17,10 +17,7 @@
           id="bs-example-navbar-collapse-1">
         <li><a routerLink="/" routerLinkActive="active">Home</a></li>
         <li><a routerLink="/help" routerLinkActive="active">Help</a></li>
-
-        <h2 *ngIf="loading; else nameElseBlock">
-          <li><a href="/">Loading</a></li>
-        </h2>
+        <li *ngIf="loading; else nameElseBlock"><a href="/">Loading</a></li>
         <ng-template #nameElseBlock>
           <li><a href="/">Lỗi</a></li>
         </ng-template>

@@ -9,8 +9,7 @@ import { UsersEditComponent } from './users-edit/users-edit.component';
 import { UsersIndexComponent } from './users-index/users-index.component';
 import { UsersNewComponent } from './users-new/users-new.component';
 import { UsersShowComponent } from './users-show/users-show.component';
-import { UsersShowFollowersComponent } from './users-show-followers/users-show-followers.component';
-import { UsersShowFollowingComponent } from './users-show-following/users-show-following.component';
+import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -24,8 +23,7 @@ const routes: Routes = [
   { path: "users/:id/edit", component: UsersEditComponent },
   { path: "signup", component: UsersNewComponent },
   { path: "login", component: SessionsNewComponent },
-  { path: "users/:id/following", component: UsersShowFollowingComponent },
-  { path: "users/:id/followers", component: UsersShowFollowersComponent },
+  { path: "users/:id/:follow", component: UsersShowFollowComponent },
   { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
 
