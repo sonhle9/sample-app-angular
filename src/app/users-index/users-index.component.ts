@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-users-index',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersIndexComponent implements OnInit {
 
-  constructor() { }
+  users:any[] = []
+  public errorMsg = []
+  constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers(): void {
+    this.userService.getUsers()
+        .subscribe(users => this.users = users,
+                   error => this.errorMsg = error);;
   }
 
 }

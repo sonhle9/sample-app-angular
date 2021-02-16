@@ -8,6 +8,14 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class UsersShowComponent implements OnInit {
 
+  public users = [
+    {"id": 1, "name": "Andrew", "age": 30},
+    {"id": 2, "name": "Brandon", "age": 25},
+    {"id": 3, "name": "Christina", "age": 26},
+    {"id": 4, "name": "Elena", "age": 28},
+    {"id": 5, "name": "Felicia", "age": 25}    
+  ]
+  public errorMsg = []
   public name = "Codevolution";
   public url = window.location.href;
   public successClass = "text-success";

@@ -24,7 +24,7 @@
 
         <div *ngIf="displayName; then thenBlock; else elseBlock"></div>
         <ng-template #thenBlock>
-          <li><a routerLink="/users" routerLinkActive="active">Users</a></li>
+          <li><a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Users</a></li>
           <li className="dropdown">
             <a href="/" className="dropdown-toggle" data-toggle="dropdown">
               Account <b className="caret"></b>
