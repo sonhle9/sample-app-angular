@@ -19,11 +19,18 @@ const routes: Routes = [
   { path: "help", component: StaticPagesHelpComponent },
   { path: "users", component: UsersIndexComponent },
   { path: "users/new", component: UsersNewComponent },
-  { path: "users/:id", component: UsersShowComponent },
+  { 
+    path: "users/:id", 
+    component: UsersShowComponent,
+    children: [
+      { path: 'following', component: UsersShowFollowComponent},
+      { path: 'followers', component: UsersShowFollowComponent}
+    ]
+  },
   { path: "users/:id/edit", component: UsersEditComponent },
   { path: "signup", component: UsersNewComponent },
   { path: "login", component: SessionsNewComponent },
-  { path: "users/:id/:follow", component: UsersShowFollowComponent },
+  // { path: "users/:id/:follow", component: UsersShowFollowComponent },
   { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
   // Angular Tutorial - 24 - Wildcard Route and Redirecting Routes
   // ng g c PageNotFound -t -s for inline template and style
