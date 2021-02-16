@@ -25,6 +25,8 @@ const routes: Routes = [
   { path: "login", component: SessionsNewComponent },
   { path: "users/:id/:follow", component: UsersShowFollowComponent },
   { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
+  // Angular Tutorial - 24 - Wildcard Route and Redirecting Routes
+  // ng g c PageNotFound -t -s for inline template and style
 ];
 
 @NgModule({

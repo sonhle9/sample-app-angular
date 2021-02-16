@@ -1,4 +1,13 @@
 <p>users-show works!</p>
+<h3>You selected user with id = {{userId}}</h3>
+<p>
+  <button (click)="goPrevious()">Previous</button>
+  <button (click)="goNext()">Next</button>
+</p>
+
+<div>
+  <button (click)="gotoUsers()">Back</button>
+</div>
 <h2>User Detail</h2>
 <h3>{{errorMsg}}</h3>    
 <ul *ngFor="let user of users">

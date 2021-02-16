@@ -1,6 +1,13 @@
 <p>users-index works!</p>
-<h2>User List</h2>
+<h2>Pagination</h2>
 <h3>{{errorMsg}}</h3>
-<ul *ngFor="let user of users">
-  <li>{{user.name}}</li>
+
+<ul className="users" *ngFor="let user of users; index as i">
+  <li>
+    <img alt={{user.name}} className="gravatar" src="https://secure.gravatar.com/avatar/bebfcf57d6d8277d806a9ef3385c078d?s=50" />
+    <a routerLink="/users/{{user.id}}" routerLinkActive="active">{{user.name}}</a>
+    | <a ngif="users.length > 0" href="/users/{{user.id}}" (click)="removeUser(i, user.id)">delete</a>
+  </li>
 </ul>
+
+<h2>Pagination</h2>

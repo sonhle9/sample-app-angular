@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+// Angular Tutorial - 25 - Route Parameters Get ID
 
 @Component({
   selector: 'app-users-show',
@@ -34,11 +35,18 @@ export class UsersShowComponent implements OnInit {
   public greeting = "";
   constructor(
     private route: ActivatedRoute,
+    private router: Router
   ) {}
-
+  public userId:any;
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.name = params['name'];
+    // this.route.queryParams.subscribe(params => {
+    //   this.name = params['name'];
+    // });
+    //let id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id') || "");
+      this.userId = id;
+      console.log(params)
     });
   }
 
@@ -51,5 +59,19 @@ export class UsersShowComponent implements OnInit {
   }
   logMessage(value:any){
     console.log(value)
+  }
+  goPrevious() {
+    let previousId = this.userId - 1;
+    this.router.navigate(['/users', previousId]);
+  }
+  goNext() {
+    let nextId = this.userId + 1;
+    this.router.navigate(['/users', nextId]);
+  }
+
+  gotoUsers() {
+    let selectedId = this.userId ? this.userId : null;
+    //this.router.navigate(['/users', {id: selectedId}]);   
+    this.router.navigate(['../', { id: selectedId }], { relativeTo: this.route });
   }
 }
