@@ -8,3 +8,8 @@ export class User {
       public subscribe: boolean
   ) {}
 }
+
+export interface User {
+  id: number;
+  name: string;
+}

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserService } from './user.service';
+// import { UserService } from './user.service';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -57,7 +57,8 @@ import { ShadedStatsComponent } from './shaded-stats/shaded-stats.component';
     CommonModule,
     HttpClientModule
   ],
-  providers: [UserService],
+  // providers: [UserService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
