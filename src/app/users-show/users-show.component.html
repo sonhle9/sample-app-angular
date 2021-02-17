@@ -8,6 +8,14 @@
 <div>
   <button (click)="gotoUsers()">Back</button>
 </div>
+
+<p>
+  <button (click)="showFollowing()">following</button>
+  <button (click)="showFollowers()">followers</button>
+</p>
+
+<router-outlet></router-outlet>
+
 <h2>User Detail</h2>
 <h3>{{errorMsg}}</h3>    
 <ul *ngFor="let user of users">

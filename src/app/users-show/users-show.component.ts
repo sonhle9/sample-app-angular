@@ -74,4 +74,12 @@ export class UsersShowComponent implements OnInit {
     //this.router.navigate(['/users', {id: selectedId}]);   
     this.router.navigate(['../', { id: selectedId }], { relativeTo: this.route });
   }
+
+  showFollowing(){
+    this.router.navigate(['following'], { relativeTo: this.route });
+  }
+
+  showFollowers(){
+    this.router.navigate(['followers'], { relativeTo: this.route });
+  }
 }
