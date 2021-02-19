@@ -4,7 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 // import { UserService } from './user.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthGuard } from './auth.guard';
+
+// import { LoginComponent } from './login/login.component'; Session New
+// import { RegisterComponent } from './register/register.component'; User New
+import { AuthService } from './auth.service';
+import { EventService } from './event.service';
+import { TokenInterceptorService } from './token-interceptor.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +34,8 @@ import { UsersShowFollowersComponent } from './users-show-followers/users-show-f
 import { UsersShowFollowingComponent } from './users-show-following/users-show-following.component';
 import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.component';
 import { ShadedStatsComponent } from './shaded-stats/shaded-stats.component';
+import { EventsComponent } from './events/events.component';
+import { SpecialEventsComponent } from './special-events/special-events.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +57,9 @@ import { ShadedStatsComponent } from './shaded-stats/shaded-stats.component';
     UsersShowFollowersComponent,
     UsersShowFollowingComponent,
     UsersShowFollowComponent,
-    ShadedStatsComponent
+    ShadedStatsComponent,
+    EventsComponent,
+    SpecialEventsComponent
   ],
   imports: [
     BrowserModule,

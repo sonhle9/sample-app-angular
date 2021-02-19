@@ -1,77 +1,81 @@
 <!-- <p>users-new works!</p> -->
 
 
-    <!-- {{ userForm.form.valid }}
+<!-- {{ userForm.form.valid }}
 
-    {{ userForm.value | json }}
-    <hr>
-    {{ userModel.value | json }}
-    
+{{ userForm.value | json }}
+<hr>
+{{ userModel.value | json }}
 
-    {{ name.className }}
-    {{ name.untouched }}
-    {{ name.pristine }}
-    {{ name.valid }}
 
-  <div class="alert alert-danger" *ngIf="errorMsg">
-    {{errorMsg}}
-  </div> -->
-  <h1>Sign up</h1>
+{{ name.className }}
+{{ name.untouched }}
+{{ name.pristine }}
+{{ name.valid }}
 
-  <div className="row">
-    <div className="col-md-6 col-md-offset-3">
-      <form
-      className="new_user"
-      id="new_user" action="/users"
-      acceptCharset="UTF-8"
-      method="post"
-      onSubmit={this.handleSubmit}
-      >
-        <!-- { this.state.errorMessage &&
-          errorMessage(this.state.errorMessage)
-        } -->
+<div class="alert alert-danger" *ngIf="errorMsg">
+{{errorMsg}}
+</div> -->
+<h1>Sign up</h1>
 
-        <label htmlFor="user_name">Name</label>
-        <input
-        className="form-control"
-        type="text"
-        name="name"
-        id="user_name"
-        autoComplete="off"
-        value={this.state.name}
-        onChange={this.handleChange}
-        />
+<div className="row">
+  <div className="col-md-6 col-md-offset-3">
+    <form
+    className="new_user"
+    id="new_user" action="/users"
+    acceptCharset="UTF-8"
+    method="post"
+    onSubmit={this.handleSubmit}
+    >
+      <!-- { this.state.errorMessage &&
+        errorMessage(this.state.errorMessage)
+      } -->
 
-        <label htmlFor="user_email">Email</label>
-        <input
-        className="form-control"
-        type="email"
-        name="email"
-        id="user_email"
-        value={this.state.email}
-        onChange={this.handleChange}
-        />
+      <label htmlFor="user_name">Name</label>
+      <input
+      className="form-control"
+      type="text"
+      name="name"
+      id="user_name"
+      autoComplete="off"
+      [(ngModel)]="registerUserData.name"
+      />
 
-        <label htmlFor="user_password">Password</label>
-        <input
-        className="form-control"
-        type="password"
-        name="password"
-        id="user_password"
-        value={this.state.password}
-        onChange={this.handleChange}
-        />
+      <label htmlFor="user_email">Email</label>
+      <input
+      className="form-control"
+      type="email"
+      name="email"
+      id="user_email"
+      [(ngModel)]="registerUserData.email"
+      />
 
-        <label htmlFor="user_password_confirmation">Confirmation</label>
-        <input
-        className="form-control"
-        type="password"
-        name="password_confirmation"
-        id="user_password_confirmation"
-        value={this.state.password_confirmation}
-        onChange={this.handleChange}
-        />
+      <label htmlFor="user_password">Password</label>
+      <input
+      className="form-control"
+      type="password"
+      name="password"
+      id="user_password"
+      [(ngModel)]="registerUserData.password"
+      />
 
-        <input type="submit" name="commit" value="Create my account" className="btn btn-primary" data-disable-with="Create my account" />
-  </form>  </div>
+      <label htmlFor="user_password_confirmation">Confirmation</label>
+      <input
+      className="form-control"
+      type="password"
+      name="password_confirmation"
+      id="user_password_confirmation"
+      [(ngModel)]="registerUserData.password_confirmation"
+      />
+
+      <input 
+      type="submit" 
+      name="commit" 
+      value="Create my account" 
+      className="btn btn-primary" 
+      data-disable-with="Create my account"
+      (click)="registerUser()"
+      />
+    </form>  
   </div>
+</div>

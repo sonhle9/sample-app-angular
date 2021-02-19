@@ -11,6 +11,9 @@ import { UsersNewComponent } from './users-new/users-new.component';
 import { UsersShowComponent } from './users-show/users-show.component';
 import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EventsComponent } from './events/events.component';
+import { SpecialEventsComponent } from './special-events/special-events.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: "", component: StaticPagesHomeComponent },
@@ -34,6 +37,15 @@ const routes: Routes = [
   { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
   // Angular Tutorial - 24 - Wildcard Route and Redirecting Routes
   // ng g c PageNotFound -t -s for inline template and style
+  {
+    path: 'events',
+    component: EventsComponent
+  },
+  {
+    path: 'special',
+    canActivate: [AuthGuard],
+    component: SpecialEventsComponent
+  }
 ];
 
 @NgModule({

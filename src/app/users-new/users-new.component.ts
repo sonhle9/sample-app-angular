@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { EnrollmentService } from '../enrollment.service';
+import { Router } from '@angular/router'
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-users-new',
@@ -16,7 +18,10 @@ export class UsersNewComponent implements OnInit {
   // errorMsg = '';
 
   // constructor(private _enrollmentService: EnrollmentService) {}
-  constructor() {}
+  registerUserData : any = {}
+  // constructor() {}
+  constructor(private _auth: AuthService,
+    private _router: Router) { }
 
   ngOnInit(): void {
   }
@@ -40,5 +45,16 @@ export class UsersNewComponent implements OnInit {
   //       error => this.errorMsg = error.statusText
   //     )
   // }
+
+  registerUser() {
+    this._auth.registerUser(this.registerUserData)
+    .subscribe(
+      (res:any) => {
+        localStorage.setItem('token', res.token)
+        this._router.navigate(['/special'])
+      },
+      (err:any) => console.log(err)
+    )      
+  }
 
 }
