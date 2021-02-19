@@ -13,6 +13,7 @@ import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { EventService } from './event.service';
 import { TokenInterceptorService } from './token-interceptor.service';
+import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.
 import { ShadedStatsComponent } from './shaded-stats/shaded-stats.component';
 import { EventsComponent } from './events/events.component';
 import { SpecialEventsComponent } from './special-events/special-events.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -67,10 +69,18 @@ import { SpecialEventsComponent } from './special-events/special-events.componen
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    AngularToastifyModule,
   ],
   // providers: [UserService],
-  providers: [],
+  // providers: [],
+  providers: [AuthService, AuthGuard, EventService, ToastService,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,6 +9,7 @@ export class LayoutsHeaderComponent implements OnInit {
 
   public loading = true;
   public displayName = true;
+  collapsed = true;
 
   constructor() { }
 

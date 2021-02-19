@@ -3,6 +3,7 @@ import { User } from '../user';
 import { EnrollmentService } from '../enrollment.service';
 import { Router } from '@angular/router'
 import { AuthService } from '../auth.service';
+import { ToastService } from 'angular-toastify'; 
 
 @Component({
   selector: 'app-users-new',
@@ -18,10 +19,22 @@ export class UsersNewComponent implements OnInit {
   // errorMsg = '';
 
   // constructor(private _enrollmentService: EnrollmentService) {}
-  registerUserData : any = {}
-  // constructor() {}
-  constructor(private _auth: AuthService,
-    private _router: Router) { }
+  registerUserData : any = {
+    user: {
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: ""
+    }
+  }
+  errorMessage = ""
+  constructor(
+    private _auth: AuthService, 
+    private _router: Router,
+    private _toastService: ToastService
+    ) {}
+  // constructor(private _auth: AuthService,
+  //   private _router: Router) { }
 
   ngOnInit(): void {
   }
@@ -46,15 +59,38 @@ export class UsersNewComponent implements OnInit {
   //     )
   // }
 
+  // registerUser() {
+  //   this._auth.registerUser(this.registerUserData)
+  //   .subscribe(
+  //     (res:any) => {
+  //       localStorage.setItem('token', res.token)
+  //       this._router.navigate(['/special'])
+  //     },
+  //     (err:any) => console.log(err)
+  //   )      
+  // }
+
   registerUser() {
+    console.log(this.registerUserData)
     this._auth.registerUser(this.registerUserData)
     .subscribe(
       (res:any) => {
-        localStorage.setItem('token', res.token)
-        this._router.navigate(['/special'])
+        if (res.data.user) {
+          this.errorMessage = ""
+          this._toastService.info("mes")
+          this._router.navigate(['/'])
+        }
+        if (res.data.error) {
+          // this.props.handleSuccessfulAuth(response.data);
+          this.errorMessage = res.data.error
+        }
+        console.log(res)
       },
-      (err:any) => console.log(err)
-    )      
+      (err:any) => {
+       console.log(err)
+       this.errorMessage = err
+      }
+    )    
   }
 
 }
