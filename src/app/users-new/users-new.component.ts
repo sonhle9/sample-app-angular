@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { EnrollmentService } from '../enrollment.service';
 import { Router } from '@angular/router'
 import { AuthService } from '../auth.service';
 import { ToastService } from 'angular-toastify'; 
+import { Validators, FormBuilder } from '@angular/forms';
+import { ForbiddenNameValidator } from './shared/user-name.validator';
+import { PasswordValidator } from './shared/password.validator';
 
 @Component({
   selector: 'app-users-new',
@@ -12,85 +13,85 @@ import { ToastService } from 'angular-toastify';
 })
 export class UsersNewComponent implements OnInit {
 
-  // topics = ['Angular', 'React', 'Vue'];
-  // userModel = new User('Rob', 'rob@test.com', 5556665566, 'default', 'morning', true);
-  // topicHasError = true;
-  // submitted = false;
-  // errorMsg = '';
+  registrationForm:any;
+  errorMessage = "";
 
-  // constructor(private _enrollmentService: EnrollmentService) {}
-  registerUserData : any = {
-    user: {
-      name: "",
-      email: "",
-      password: "",
-      password_confirmation: ""
-    }
-  }
-  errorMessage = ""
   constructor(
-    private _auth: AuthService, 
+    private fb: FormBuilder, 
+    private _auth: AuthService,
     private _router: Router,
     private _toastService: ToastService
-    ) {}
-  // constructor(private _auth: AuthService,
-  //   private _router: Router) { }
-
-  ngOnInit(): void {
+  ) { 
+    this.registrationForm = [];
   }
 
-  // validateTopic(value:any) {
-  //   if (value === 'default') {
-  //     this.topicHasError = true;
-  //   } else {
-  //     this.topicHasError = false;
-  //   }
-  // }
+  ngOnInit() {
+    this.registrationForm = this.fb.group({
+      user: this.fb.group({
+        name: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],
+        email: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        password_confirmation: ['', [Validators.required]],
+      }),
+    }, { /* validator: PasswordValidator */ });
+  }
 
-  // // onSubmit(userForm:any) {
-  // onSubmit() {
-  //   // console.log(userForm) (ngSubmit)="onSubmit(userForm)"
-  //   console.log(this.userModel)
-  //   this.submitted = true;
-  //   this._enrollmentService.enroll(this.userModel)
-  //     .subscribe(
-  //       response => console.log('Success!', response),
-  //       error => this.errorMsg = error.statusText
-  //     )
-  // }
+  get name() {
+    return this.registrationForm.get('user').get('name');
+  }
+
+  get email() {
+    return this.registrationForm.get('user').get('email');
+  }
+
+  get password() {
+    return this.registrationForm.get('user').get('password');
+  }
+
+  get password_confirmation() {
+    return this.registrationForm.get('user').get('password_confirmation');
+  }
+
+  onSubmit() {
+    console.log(this.registrationForm.value);
+    this._auth.registerUser(this.registrationForm.value)
+      .subscribe(
+        response =>  {
+          if (response.user) { 
+            this.errorMessage = ""
+            this._toastService.info("mes")
+            this._router.navigate(['/'])
+          }
+          if (response.error) { 
+            console.log('Error!', response.error)
+            this.errorMessage = response.error
+          }
+        },
+        error => console.error('Error!', error)
+      );
+  }
 
   // registerUser() {
+  //   console.log(this.registerUserData)
   //   this._auth.registerUser(this.registerUserData)
   //   .subscribe(
   //     (res:any) => {
-  //       localStorage.setItem('token', res.token)
-  //       this._router.navigate(['/special'])
+  //       if (res.data.user) {
+  //         this.errorMessage = ""
+  //         this._toastService.info("mes")
+  //         this._router.navigate(['/'])
+  //       }
+  //       if (res.data.error) {
+  //         // this.props.handleSuccessfulAuth(response.data);
+  //         this.errorMessage = res.data.error
+  //       }
+  //       console.log(res)
   //     },
-  //     (err:any) => console.log(err)
-  //   )      
+  //     (err:any) => {
+  //      console.log(err)
+  //      this.errorMessage = err
+  //     }
+  //   )    
   // }
-
-  registerUser() {
-    console.log(this.registerUserData)
-    this._auth.registerUser(this.registerUserData)
-    .subscribe(
-      (res:any) => {
-        if (res.data.user) {
-          this.errorMessage = ""
-          this._toastService.info("mes")
-          this._router.navigate(['/'])
-        }
-        if (res.data.error) {
-          // this.props.handleSuccessfulAuth(response.data);
-          this.errorMessage = res.data.error
-        }
-        console.log(res)
-      },
-      (err:any) => {
-       console.log(err)
-       this.errorMessage = err
-      }
-    )    
-  }
 
 }
