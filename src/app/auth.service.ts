@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 export class AuthService {
 
   private _registerUrl = "http://localhost:3001/api/users";
-  private _loginUrl = "http://localhost:3001/api/login";
+  private _loginUrl = "https://railstutorialapi.herokuapp.com/api/login";
 
   constructor(private http: HttpClient,
               private _router: Router) { }
