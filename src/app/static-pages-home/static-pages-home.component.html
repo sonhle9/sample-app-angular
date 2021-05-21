@@ -1,39 +1,25 @@
-<p>static-pages-home works!</p>
-<div [ngSwitch]="color">
-  <div *ngSwitchCase="'red'">You picked red color</div>
-  <div *ngSwitchCase="'blue'">You picked blue color</div>
-  <div *ngSwitchCase="'green'">You picked green color</div>
-  <div *ngSwitchDefault>Pick again</div>
-</div>
-<div *ngFor="let color of colors; index as i">
-  <h2>{{i}} {{color}}</h2>
-</div>
-<div *ngFor="let color of colors; last as l">
-  <h2>{{l}} {{color}}</h2>
-</div>
-<div *ngFor="let color of colors; even as e">
-  <h2>{{e}} {{color}}</h2>
-</div>
-<div *ngFor="let color of colors; odd as o">
-  <h2>{{o}} {{color}}</h2>
-</div>
-
-<h2>{{"Codevolution" | lowercase}}</h2>
-<h2>{{"Codevolution" | uppercase}}</h2>
-<h2>{{"Welcome to codevolution" | titlecase}}</h2>
-<h2>{{"Codevolution" | slice:3:6}}</h2>
-<h2>{{person | json}}</h2>
-<h2>{{5.678 | number:'1.2-3'}}</h2>
-<h2>{{5.678 | number:'3.4-5'}}</h2>
-<h2>{{5.678 | number:'3.1-2'}}</h2>
-
-
-<h2>{{0.25 | percent}}</h2>
-<h2>{{0.25 | currency}}</h2>
-<h2>{{0.25 | currency:'GBP'}}</h2>
-<h2>{{0.25 | currency:'GBP':'code'}}</h2>
-
-<h2>{{date}}</h2>
-<h2>{{date | date:'short'}}</h2>
-<h2>{{date | date:'shortDate'}}</h2>
-<h2>{{date | date:'shortTime'}}</h2>
+<div *ngIf="isAuthenticated; then thenBlock; else elseBlock"></div>
+<ng-template #thenBlock>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Current State</h5>
+      <ul>
+        <li><strong>isAuthenticated</strong> - {{isAuthenticated}}</li>
+        <!-- <li><strong>user.email</strong> - {{ user?.email || 'null'}}</li>
+        <li><strong>user.token</strong> - {{ user?.token || 'null'}}</li> -->
+        <li><strong>user</strong> - {{user | json}}</li>
+        <li><strong>errorMessage</strong> - {{ errorMessage || 'null'}}</li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+<ng-template #elseBlock>
+  <div class="center jumbotron">
+    <h1>Welcome to the Sample App</h1>
+    <h2>
+    This is the home page for the <a href="https://www.railstutorial.org/">Angular Tutorial</a> sample application.
+    </h2>
+    <a class="btn btn-lg btn-primary" routerLink="/signup" routerLinkActive="active">Sign up now!</a>
+  </div>
+  <a href="https://rubyonrails.org/"><img alt="Rails logo" width="70" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" /></a>
+</ng-template>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-fixed-top navbar-inverse">
+<!-- <nav class="navbar navbar-expand-md navbar-fixed-top navbar-inverse">
   <div class="container">
   <a id="logo" routerLink="/" routerLinkActive="active">sample app</a>
   <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
@@ -38,10 +38,10 @@
     </ul>
   </div>
   </div>
-</nav>
-<!-- <header class="navbar navbar-fixed-top navbar-inverse">
+</nav> -->
+<header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-  <a id="logo" href="/">sample app</a>
+  <a id="logo" routerLink="/" routerLinkActive="active">sample app</a>
     <nav>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed"
@@ -58,15 +58,18 @@
           id="bs-example-navbar-collapse-1">
         <li><a routerLink="/" routerLinkActive="active">Home</a></li>
         <li><a routerLink="/help" routerLinkActive="active">Help</a></li>
-        <li *ngIf="loading; else nameElseBlock"><a href="/">Loading</a></li>
+        <!-- <li *ngIf="loading; else nameElseBlock"><a href="/">Loading</a></li>
         <ng-template #nameElseBlock>
           <li><a href="/">Lỗi</a></li>
-        </ng-template>
+        </ng-template> -->
 
-        <div *ngIf="displayName; then thenBlock; else elseBlock"></div>
+        <div *ngIf="isAuthenticated; then thenBlock; else elseBlock"></div>
         <ng-template #thenBlock>
           <li><a routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Users</a></li>
-          <li class="dropdown">
+          <li><a routerLink="/users/1" routerLinkActive="active">Profile</a></li>
+          <li><a routerLink="/users/1/edit" routerLinkActive="active">Settings</a></li>
+          <li><a routerLink="#logout" (click)="logOut()">Logout</a></li>
+          <!-- <li class="dropdown">
             <a href="/" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
             </a>
@@ -75,10 +78,10 @@
               <li><a routerLink="/users/1/edit" routerLinkActive="active">Settings</a></li>
               <li class="divider"></li>
               <li>
-                <a routerLink="#logout" (click)="logMessage()">Logout</a>
+                <a routerLink="#logout" (click)="logOut()">Logout</a>
               </li>
             </ul>
-          </li>
+          </li> -->
         </ng-template>
         <ng-template #elseBlock>
           <li><a routerLink="/login">Log in</a></li> 
@@ -86,4 +89,4 @@
       </ul>
     </nav>
   </div>
-</header> -->
+</header>

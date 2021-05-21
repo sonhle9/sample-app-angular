@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState, selectAuthState } from '../ngrx/app.states';
+import { LogOut } from '../ngrx/actions/auth.actions';
 
 @Component({
   selector: 'app-layouts-header',
@@ -7,17 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutsHeaderComponent implements OnInit {
 
-  public loading = true;
-  public displayName = true;
-  collapsed = true;
+  getState: Observable<any>;
+  isAuthenticated = false;
+  user = null;
+  errorMessage = null;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.getState = this.store.select(selectAuthState);
   }
 
-  logMessage(){
-    console.log("log out")
+  ngOnInit() {
+    this.getState.subscribe((state) => {
+      this.isAuthenticated = state.isAuthenticated;
+      this.user = state.user;
+      this.errorMessage = state.errorMessage;
+    });
+  }
+
+  logOut(): void {
+    this.store.dispatch(new LogOut);
   }
 
 }

@@ -11,9 +11,15 @@ import { AuthGuard } from './auth.guard';
 // import { LoginComponent } from './login/login.component'; Session New
 // import { RegisterComponent } from './register/register.component'; User New
 import { AuthService } from './auth.service';
+import { AuthEffects } from './ngrx/effects/auth.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers } from './ngrx/app.states';
+import { StoreModule } from '@ngrx/store';
 import { EventService } from './event.service';
 import { TokenInterceptorService } from './token-interceptor.service';
-import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
+import { ToastService, AngularToastifyModule } from 'angular-toastify';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'; // Angular CLI environment
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -72,6 +78,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule,
     AngularToastifyModule,
+    StoreModule.forRoot(reducers, {}),
+    EffectsModule.forRoot([AuthEffects]),
+    
+    StoreModule.forRoot(reducers),
+    // Instrumentation must be imported after importing StoreModule (config is optional)
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   // providers: [UserService],
   // providers: [],

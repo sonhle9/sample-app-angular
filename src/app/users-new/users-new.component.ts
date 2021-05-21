@@ -4,7 +4,13 @@ import { AuthService } from '../auth.service';
 import { ToastService } from 'angular-toastify'; 
 import { Validators, FormBuilder } from '@angular/forms';
 import { ForbiddenNameValidator } from './shared/user-name.validator';
-import { PasswordValidator } from './shared/password.validator';
+// import { PasswordValidator } from './shared/password.validator';
+import { Title } from '@angular/platform-browser';
+import { User } from '../models/user';
+import { Store } from '@ngrx/store';
+import { AppState, selectAuthState } from '../ngrx/app.states';
+import { SignUp } from '../ngrx/actions/auth.actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-users-new',
@@ -13,19 +19,28 @@ import { PasswordValidator } from './shared/password.validator';
 })
 export class UsersNewComponent implements OnInit {
 
-  registrationForm:any;
+  user: User = new User();
+  registrationForm: any;
   errorMessage = "";
+  getState: Observable<any>;
 
   constructor(
     private fb: FormBuilder, 
     private _auth: AuthService,
     private _router: Router,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private titleService: Title,
+    private store: Store<AppState>
   ) { 
     this.registrationForm = [];
+    this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Sign up");
+    this.getState.subscribe((state) => {
+      this.errorMessage = state.errorMessage;
+    });
     this.registrationForm = this.fb.group({
       user: this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],
@@ -53,22 +68,25 @@ export class UsersNewComponent implements OnInit {
   }
 
   onSubmit() {
+    // this.user = this.registrationForm.value;
+    // console.log(this.user);
     console.log(this.registrationForm.value);
-    this._auth.registerUser(this.registrationForm.value)
-      .subscribe(
-        response =>  {
-          if (response.user) { 
-            this.errorMessage = ""
-            this._toastService.info("mes")
-            this._router.navigate(['/'])
-          }
-          if (response.error) { 
-            console.log('Error!', response.error)
-            this.errorMessage = response.error
-          }
-        },
-        error => console.error('Error!', error)
-      );
+    this.store.dispatch(new SignUp(this.registrationForm.value));
+    // this._auth.registerUser(this.user)
+    //   .subscribe(
+    //     response =>  {
+    //       if (response.user) { 
+    //         this.errorMessage = ""
+    //         this._toastService.info("mes")
+    //         this._router.navigate(['/'])
+    //       }
+    //       if (response.error) { 
+    //         console.log('Error!', response.error)
+    //         this.errorMessage = response.error
+    //       }
+    //     },
+    //     error => console.error('Error!', error)
+    //   );
   }
 
   // registerUser() {

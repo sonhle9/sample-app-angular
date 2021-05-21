@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState, selectAuthState } from '../ngrx/app.states';
 
 @Component({
   selector: 'app-static-pages-home',
@@ -7,18 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaticPagesHomeComponent implements OnInit {
 
-  public color = "red";
-  public colors = ["red","blue","green","yellow"]
-  public person = {
-    "firstName": "John",
-    "lastName": "Doe"
+  getState: Observable<any>;
+  isAuthenticated = false;
+  user = null;
+  errorMessage = null;
+
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.getState = this.store.select(selectAuthState);
   }
 
-  public date = new Date();
-
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getState.subscribe((state) => {
+      this.isAuthenticated = state.isAuthenticated;
+      this.user = state.user;
+      this.errorMessage = state.errorMessage;
+    });
   }
 
 }
