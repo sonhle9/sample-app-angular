@@ -14,6 +14,7 @@ import {
   AuthActionTypes,
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
+  GetStatus,
   LogOut,
 } from '../actions/auth.actions';
 import { User } from 'src/app/models/user';
@@ -35,7 +36,8 @@ export class AuthEffects {
     .switchMap((payload: User) => {
       return this.authService.loginUser(payload)
         .map((user) => {
-          return new LogInSuccess({token: user.token, email: payload.email});
+          console.log('1', user);
+          return new LogInSuccess({user});
         })
         .catch((error) => {
           return Observable.of(new LogInFailure({ error: error }));
@@ -48,6 +50,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((user) => {
       // localStorage.setItem('token', user.payload.token);
+      console.log(user);
       localStorage.setItem('token', user);
       this.router.navigateByUrl('/');
     })
@@ -99,7 +102,14 @@ export class AuthEffects {
   GetStatus: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.GET_STATUS))
     .switchMap((payload: User) => {
-      return this.authService.getStatus();
+      console.log('getStatus', this.authService.getStatus());
+      return this.authService.getStatus()   
+        .map((user) => {
+          console.log('getStatus', user);
+          return new LogInSuccess({user});
+        })
+        .catch((error) => {
+          return Observable.of(new LogInFailure({ error: error }));
+        });
     });
-
 }

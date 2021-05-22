@@ -38,6 +38,6 @@ export class AuthService {
 
   getStatus() {
     const url = `${this.BASE_URL}sessions`;
-    return this.http.get<User>(url)
+    return this.http.get<any>(url)
   }
 }
