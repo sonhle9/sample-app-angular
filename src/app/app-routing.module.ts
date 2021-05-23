@@ -1,51 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SessionsNewComponent } from './sessions-new/sessions-new.component';
-import { StaticPagesAboutComponent } from './static-pages-about/static-pages-about.component';
-import { StaticPagesContactComponent } from './static-pages-contact/static-pages-contact.component';
-import { StaticPagesHelpComponent } from './static-pages-help/static-pages-help.component';
-import { StaticPagesHomeComponent } from './static-pages-home/static-pages-home.component';
-import { UsersEditComponent } from './users-edit/users-edit.component';
-import { UsersIndexComponent } from './users-index/users-index.component';
-import { UsersNewComponent } from './users-new/users-new.component';
-import { UsersShowComponent } from './users-show/users-show.component';
-import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { EventsComponent } from './events/events.component';
-import { SpecialEventsComponent } from './special-events/special-events.component';
-import { AuthGuard } from './auth.guard';
+import { SessionsNewComponent } from './pages/sessions/new/new.component';
+import { AboutComponent } from './pages/static_pages/about/about.component';
+import { ContactComponent } from './pages/static_pages/contact/contact.component';
+import { HelpComponent } from './pages/static_pages/help/help.component';
+import { HomeComponent } from './pages/static_pages/home/home.component';
+import { PageNotFoundComponent } from './pages/static_pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: "", component: StaticPagesHomeComponent },
-  { path: "about", component: StaticPagesAboutComponent },
-  { path: "contact", component: StaticPagesContactComponent },
-  { path: "help", component: StaticPagesHelpComponent },
-  { path: "users", component: UsersIndexComponent },
-  { path: "users/new", component: UsersNewComponent },
-  { 
-    path: "users/:id", 
-    component: UsersShowComponent,
-    children: [
-      { path: 'following', component: UsersShowFollowComponent},
-      { path: 'followers', component: UsersShowFollowComponent}
-    ]
-  },
-  { path: "users/:id/edit", component: UsersEditComponent },
-  { path: "signup", component: UsersNewComponent },
+  { path: "", component: HomeComponent },
+  { path: "about", component: AboutComponent },
+  { path: "contact", component: ContactComponent },
+  { path: "help", component: HelpComponent },
   { path: "login", component: SessionsNewComponent },
-  // { path: "users/:id/:follow", component: UsersShowFollowComponent },
-  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
-  // Angular Tutorial - 24 - Wildcard Route and Redirecting Routes
-  // ng g c PageNotFound -t -s for inline template and style
   {
-    path: 'events',
-    component: EventsComponent
+    path: 'users',
+    loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
   },
-  {
-    path: 'special',
-    canActivate: [AuthGuard],
-    component: SpecialEventsComponent
-  }
+  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
 
 @NgModule({
