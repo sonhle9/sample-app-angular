@@ -13,30 +13,15 @@ export interface State {
 }
 
 export const initialState: State = {
-  isAuthenticated: true,
-  user: 
-  {
-    activated: true,
-    activated_at: "2020-05-04T19:40:08.751Z",
-    activation_digest: "$2a$12$44OKu4ShrVk5xsi3hNw3v.wrdQVupmQ33CF8q5qymzzXSL4jaiE6K",
-    admin: true,
-    created_at: "2020-05-04T19:40:09.222Z",
-    email: "example@railstutorial.org",
-    id: 1,
-    name: "Example User",
-    password_digest: "$2a$12$W4sGhZZGE5eSYT50iee9GuQiZ7fsqCT7tjxgXDgF7QUJy4pN12Bx6",
-    // remember_digest: null,
-    // reset_digest: null,
-    // reset_sent_at: null,
-    updated_at: "2021-05-20T06:48:55.476Z"
-  },
+  isAuthenticated: false,
+  user: null,
   errorMessage: null
-  };
+};
 
 export function reducer(state = initialState, action: any): State {
   switch (action.type) {
-    case AuthActionTypes.GET_STATUS: {
-      console.log('GET_STATUS', action);
+    case AuthActionTypes.GET_STATUS_SUCCESS: {
+      console.log('action', action);
       return {
         ...state,
         isAuthenticated: true,
@@ -44,8 +29,13 @@ export function reducer(state = initialState, action: any): State {
         errorMessage: null
       };
     }
+    case AuthActionTypes.GET_STATUS_FAILURE: {
+      return {
+        ...state,
+        errorMessage: action.payload.error
+      };
+    }
     case AuthActionTypes.LOGIN_SUCCESS: {
-      console.log('action', action);
       return {
         ...state,
         isAuthenticated: true,

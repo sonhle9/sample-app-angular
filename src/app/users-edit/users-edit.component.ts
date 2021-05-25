@@ -98,7 +98,6 @@ export class UsersEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registrationForm.value);
     this._registrationService.register(this.registrationForm.value)
       .subscribe(
         response => console.log('Success!', response),

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { AppState, selectAuthState } from '../ngrx/app.states';
-import { GetStatus, LogOut } from '../ngrx/actions/auth.actions';
+import { LogOut } from '../ngrx/actions/auth.actions';
 
 @Component({
   selector: 'app-layouts-header',
@@ -24,7 +24,6 @@ export class LayoutsHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.dispatch(new GetStatus());
     this.getState.subscribe((state) => {
       this.isAuthenticated = state.isAuthenticated;
       this.user = state.user;

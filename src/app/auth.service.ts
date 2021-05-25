@@ -2,25 +2,32 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { User } from './models/user'
+import { environment } from './../environments/environment';
 
 @Injectable()
 export class AuthService {
 
-  private BASE_URL = 'https://railstutorialapi.herokuapp.com/api/';
-  // private _registerUrl = "http://localhost:3001/api/users";
-  // private _loginUrl = "https://railstutorialapi.herokuapp.com/api/login";
+  BASE_URL: string;
 
-  constructor(private http: HttpClient,
-              private _router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private _router: Router) 
+  { 
+    if (environment.production) {
+      this.BASE_URL = 'https://railstutorialapi.herokuapp.com/api/';
+    } else {
+      this.BASE_URL = "http://localhost:3001/api/";
+    }
+  }
 
   registerUser(user:User) {
     const url = `${this.BASE_URL}users`;
-    return this.http.post<any>(url, user)
+    return this.http.post<any>(url, user,{ withCredentials: true })
   }
 
   loginUser(user:User) {
     const url = `${this.BASE_URL}login`;
-    return this.http.post<any>(url, user)
+    return this.http.post<any>(url, user,{ withCredentials: true })
   }
 
   logoutUser() {
@@ -38,6 +45,6 @@ export class AuthService {
 
   getStatus() {
     const url = `${this.BASE_URL}sessions`;
-    return this.http.get<any>(url)
+    return this.http.get<any>(url,{ withCredentials: true })
   }
 }

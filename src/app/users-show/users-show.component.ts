@@ -46,7 +46,6 @@ export class UsersShowComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = parseInt(params.get('id') || "");
       this.userId = id;
-      console.log(params)
     });
   }
 
@@ -54,11 +53,9 @@ export class UsersShowComponent implements OnInit {
     return "Hello " + this.name;
   }
   onClick(event:any){
-    console.log(event)
     this.greeting = event.type;
   }
   logMessage(value:any){
-    console.log(value)
   }
   goPrevious() {
     let previousId = this.userId - 1;

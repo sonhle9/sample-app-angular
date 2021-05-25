@@ -49,7 +49,6 @@ export class SessionsNewComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     // const payload = {
     //   email: this.loginForm.value.email,
     //   password: this.loginForm.value.password

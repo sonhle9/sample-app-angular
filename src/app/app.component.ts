@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { Store } from '@ngrx/store';
+
+import { AppState } from './ngrx/app.states';
+import { GetStatus } from './ngrx/actions/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +11,8 @@ import { AuthService } from './auth.service';
 })
 export class AppComponent {
   title = 'sample-app-angular';
-  constructor(private _authService: AuthService){}
+  constructor(private store: Store<AppState>){}
+  ngOnInit() {
+    this.store.dispatch(new GetStatus());
+  }
 }
