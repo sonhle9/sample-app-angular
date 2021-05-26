@@ -29,7 +29,7 @@ export class StaticPagesHomeComponent implements OnInit {
   micropost!: number;
   gravatar!: string;
   content = '';
-  image: Blob = new Blob();
+  image!: string;
   errorMessage = '';
   @ViewChild('inputEl') private inputEl!: ElementRef;
   @ViewChild('inputImage') private inputImage!: ElementRef;
@@ -57,7 +57,10 @@ export class StaticPagesHomeComponent implements OnInit {
         if (response.feed_items) {
           this.feed_items = response.feed_items;
           this.total_count = response.total_count;
+          this.following = response.following;
+          this.followers = response.followers;
           this.micropost = response.micropost;
+          this.gravatar = response.gravatar;
         } else {
           this.feed_items = [];
         }
@@ -84,7 +87,7 @@ export class StaticPagesHomeComponent implements OnInit {
       const size_in_megabytes = e.target.files[0].size / 1024 / 1024
       if (size_in_megabytes > 512) {
         alert("Maximum file size is 512MB. Please choose a smaller file.")
-        this.image = new Blob();
+        this.image = '';
         e.target.value = null
       } else {
         this.image = e.target.files[0];
@@ -97,11 +100,10 @@ export class StaticPagesHomeComponent implements OnInit {
     formData.append('micropost[content]',
       this.content
     )
-    console.log(this.image);
     if (this.image) {
       formData.append('micropost[image]',
         this.image,
-        "ten anh"
+        this.inputImage.nativeElement.name 
       )
     }
 
@@ -124,7 +126,7 @@ export class StaticPagesHomeComponent implements OnInit {
           // flashMessage(...data.flash)
           this._toastService.success("Micropost created!");
           this.content = '';
-          this.image = new Blob();
+          this.image = '';
           // document.querySelector('[name="micropost[image]"]').value = null;
           this.inputImage.nativeElement.value = null;
           this.errorMessage = '';
