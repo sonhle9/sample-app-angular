@@ -1,15 +1,102 @@
 <div *ngIf="isAuthenticated; then thenBlock; else elseBlock"></div>
 <ng-template #thenBlock>
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Current State</h5>
-      <ul>
-        <li><strong>isAuthenticated</strong> - {{isAuthenticated}}</li>
-        <!-- <li><strong>user.email</strong> - {{ user?.email || 'null'}}</li>
-        <li><strong>user.token</strong> - {{ user?.token || 'null'}}</li> -->
-        <li><strong>user</strong> - {{user | json}}</li>
-        <li><strong>errorMessage</strong> - {{ errorMessage || 'null'}}</li>
-      </ul>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <img alt={{user.name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{gravatar}}?s=50" />
+        <h1>{{user.name}}</h1>
+        <span><a routerLink="/users/{{user.id}}" routerLinkActive="active">view my profile</a></span>
+        <span [ngPlural]="micropost" >
+          <ng-template ngPluralCase="=0">{{micropost}} micropost</ng-template>
+          <ng-template ngPluralCase="=1">{{micropost}} micropost</ng-template>
+          <ng-template ngPluralCase="other">{{micropost}} microposts</ng-template>
+        </span>
+      </section>
+
+      <section class="stats">
+        <div class="stats">
+          <a routerLink="/users/{{user.id}}/following" routerLinkActive="active">
+            <strong id="following" class="stat">
+              {{following}}
+            </strong> following
+          </a>
+          <a routerLink="/users/{{user.id}}/followers" routerLinkActive="active">
+            <strong id="followers" class="stat">
+              {{followers}}
+            </strong> followers
+          </a>
+        </div>
+      </section>
+
+      <section class="micropost_form">
+        <form
+        encType="multipart/form-data"
+        action="/microposts"
+        acceptCharset="UTF-8"
+        method="post"
+        (ngSubmit)="handleSubmit($event)"
+        >
+          <div *ngIf="errorMessage" id="error_explanation">
+            <div class="alert alert-danger">
+              The form contains  error.
+            </div>
+            <ul>
+              <li *ngFor="let error of errorMessage">{{error}}</li>
+            </ul>
+          </div>
+          <div class="field">
+              <textarea
+              placeholder="Compose new micropost..."
+              name="micropost[content]"
+              id="micropost_content"
+              value={{content}}
+              (change)="handleContentInput($event)"
+              >
+              </textarea>
+          </div>
+          <input #inputEl type="submit" name="commit" value="Post" class="btn btn-primary" data-disable-with="Post" />
+          <span class="image">
+            <input
+            accept="image/jpeg,image/gif,image/png"
+            type="file"
+            name="micropost[image]"
+            id="micropost_image"
+            (change)="handleImageInput($event)"
+            />
+          </span>
+        </form>
+      </section>
+    </aside>
+
+    <div class="col-md-8">
+      <h3>Micropost Feed</h3>
+      <ol class="microposts">
+        <li *ngFor="let i of feed_items" id= 'micropost-{{i.id}}' >
+          <a href='/users/{{i.user_id}}'>
+            <img alt={{i.user_name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{i.gravatar_id}}?s={{i.size}}" />
+          </a>
+          <span class="user"><a href='/users/{{i.user_id}}'>{{i.user_name}}</a></span>
+          <span class="content">
+            {{i.content}}
+            <img *ngIf="i.image" alt="Example User" src='{{i.image}}' />
+          </span>
+          <span class="timestamp">
+            Posted {{i.timestamp}} ago.
+            <a *ngIf="user.id === i.user_id" [routerLink]="" (click)="removeMicropost(i.id)">delete</a>
+          </span>
+        </li>
+      </ol>
+
+      <ngb-pagination 
+        [collectionSize]="total_count" 
+        [pageSize]="itemsPerPage" 
+        [(page)]="page" 
+        [rotate]="true"
+        [ellipses]="false"
+        [boundaryLinks]="true"
+        [maxSize]="5" 
+        (pageChange)="onPageChange(page)">
+      </ngb-pagination>
     </div>
   </div>
 </ng-template>

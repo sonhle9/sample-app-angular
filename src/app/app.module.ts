@@ -44,6 +44,7 @@ import { ShadedStatsComponent } from './shaded/shaded-stats/shaded-stats.compone
 import { EventsComponent } from './others/events/events.component';
 import { SpecialEventsComponent } from './others/special-events/special-events.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StaticPagesHomeService } from './static-pages/static-pages-home/static-pages-home.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   // providers: [UserService],
   // providers: [],
-  providers: [AuthService, AuthGuard, EventService, ToastService,
+  providers: [AuthService, AuthGuard, EventService, ToastService, StaticPagesHomeService, 
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
