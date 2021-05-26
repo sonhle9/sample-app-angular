@@ -33,10 +33,10 @@ import { StaticPagesAboutComponent } from './static-pages-about/static-pages-abo
 import { StaticPagesContactComponent } from './static-pages-contact/static-pages-contact.component';
 import { StaticPagesHelpComponent } from './static-pages-help/static-pages-help.component';
 import { StaticPagesHomeComponent } from './static-pages-home/static-pages-home.component';
-import { UsersEditComponent } from './users-edit/users-edit.component';
-import { UsersIndexComponent } from './users-index/users-index.component';
-import { UsersNewComponent } from './users-new/users-new.component';
-import { UsersShowComponent } from './users-show/users-show.component';
+// import { UsersEditComponent } from './users-edit/users-edit.component';
+// import { UsersIndexComponent } from './users-index/users-index.component';
+// import { UsersNewComponent } from './users-new/users-new.component';
+// import { UsersShowComponent } from './users-show/users-show.component';
 import { UsersShowFollowersComponent } from './users-show-followers/users-show-followers.component';
 import { UsersShowFollowingComponent } from './users-show-following/users-show-following.component';
 import { UsersShowFollowComponent } from './users-show-follow/users-show-follow.component';
@@ -58,10 +58,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     StaticPagesContactComponent,
     StaticPagesHelpComponent,
     StaticPagesHomeComponent,
-    UsersEditComponent,
-    UsersIndexComponent,
-    UsersNewComponent,
-    UsersShowComponent,
+    // UsersEditComponent,
+    // UsersIndexComponent,
+    // UsersNewComponent,
+    // UsersShowComponent,
     UsersShowFollowersComponent,
     UsersShowFollowingComponent,
     UsersShowFollowComponent,

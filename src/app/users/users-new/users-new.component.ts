@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { ToastService } from 'angular-toastify'; 
 import { Validators, FormBuilder } from '@angular/forms';
 import { ForbiddenNameValidator } from './shared/user-name.validator';
 // import { PasswordValidator } from './shared/password.validator';
 import { Title } from '@angular/platform-browser';
-import { User } from '../models/user';
+import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
-import { AppState, selectAuthState } from '../ngrx/app.states';
-import { SignUp } from '../ngrx/actions/auth.actions';
+import { AppState, selectAuthState } from '../../ngrx/app.states';
+import { SignUp } from '../../ngrx/actions/auth.actions';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

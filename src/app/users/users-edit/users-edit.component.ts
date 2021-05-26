@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ForbiddenNameValidator } from './shared/user-name.validator';
 import { PasswordValidator } from './shared/password.validator';
-import { RegistrationService } from '../registration.service';
+import { RegistrationService } from '../../registration.service';
 
 @Component({
   selector: 'app-users-edit',
