@@ -103,7 +103,7 @@ export class StaticPagesHomeComponent implements OnInit {
     if (this.image) {
       formData.append('micropost[image]',
         this.image,
-        this.inputImage.nativeElement.name 
+        this.inputImage.nativeElement.value.name
       )
     }
 
