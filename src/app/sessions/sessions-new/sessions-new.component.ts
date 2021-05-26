@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router'
 import { ToastService } from 'angular-toastify';
 import { Title } from '@angular/platform-browser';
-import { User } from '../models/user';
+import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
-import { AppState, selectAuthState } from '../ngrx/app.states';
-import { LogIn } from '../ngrx/actions/auth.actions';
+import { AppState, selectAuthState } from '../../ngrx/app.states';
+import { LogIn } from '../../ngrx/actions/auth.actions';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

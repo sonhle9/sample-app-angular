@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { AppState, selectAuthState } from '../ngrx/app.states';
+import { AppState, selectAuthState } from '../../ngrx/app.states';
+import { LogOut } from '../../ngrx/actions/auth.actions';
 
 @Component({
-  selector: 'app-static-pages-home',
-  templateUrl: './static-pages-home.component.html',
-  styleUrls: ['./static-pages-home.component.scss']
+  selector: 'app-layouts-header',
+  templateUrl: './layouts-header.component.html',
+  styleUrls: ['./layouts-header.component.scss']
 })
-export class StaticPagesHomeComponent implements OnInit {
+export class LayoutsHeaderComponent implements OnInit {
 
   getState: Observable<any>;
   isAuthenticated = false;
@@ -28,6 +29,10 @@ export class StaticPagesHomeComponent implements OnInit {
       this.user = state.user;
       this.errorMessage = state.errorMessage;
     });
+  }
+
+  logOut(): void {
+    this.store.dispatch(new LogOut);
   }
 
 }
