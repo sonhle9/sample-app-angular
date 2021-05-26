@@ -32,6 +32,7 @@ export class StaticPagesHomeComponent implements OnInit {
   image: Blob = new Blob();
   errorMessage = '';
   @ViewChild('inputEl') private inputEl!: ElementRef;
+  @ViewChild('inputImage') private inputImage!: ElementRef;
 
   constructor(
     private store: Store<AppState>,
@@ -125,6 +126,7 @@ export class StaticPagesHomeComponent implements OnInit {
           this.content = '';
           this.image = new Blob();
           // document.querySelector('[name="micropost[image]"]').value = null;
+          this.inputImage.nativeElement.value = null;
           this.errorMessage = '';
           this.setFeedsAfterAction();
         }
