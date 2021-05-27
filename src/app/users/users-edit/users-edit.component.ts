@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, FormArray, Validators, EmailValidator } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ForbiddenNameValidator } from './shared/user-name.validator';
 import { PasswordValidator } from './shared/password.validator';
-import { RegistrationService } from '../../registration.service';
+import { UsersEditService } from './users-edit.service';
+import { User } from 'src/app/models/user';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-users-edit',
@@ -12,97 +15,104 @@ import { RegistrationService } from '../../registration.service';
 })
 export class UsersEditComponent implements OnInit {
 
-  registrationForm:any;
-  // registrationForm = new FormGroup({
-  //   userName: new FormControl('Vishwas'),
-  //   password: new FormControl(''),
-  //   confirmPassword: new FormControl(''),
-  //   address: new FormGroup({
-  //     city: new FormControl(''),
-  //     state: new FormControl(''),
-  //     postalCode: new FormControl('')
-  //   })
-  // });
+  editForm:any;
+
+  id!: number;
+  user:User = {};
+  errors = '';
+  gravatar = '';
+  @ViewChild('inputEl') private inputEl!: ElementRef;
+
   constructor(
     private fb: FormBuilder, 
-    private _registrationService: RegistrationService
+    private service: UsersEditService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private _toastService: ToastService
   ) { 
-    this.registrationForm = [];
-  }
-
-  // constructor() { }
-
-  // ngOnInit(): void {
-  // }
-
-  ngOnInit() {
-    this.registrationForm = this.fb.group({
-      userName: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],
-      password: [''],
-      confirmPassword: [''],
-      email: [''],
-      subscribe: [false],
-      address: this.fb.group({
-        city: [''],
-        state: [''],
-        postalCode: ['']
-      }),
-      alternateEmails: this.fb.array([])
-    }, { validator: PasswordValidator });
-
-    this.registrationForm.get('subscribe')!.valueChanges
-      .subscribe((checkedValue:any) => {
-        const email = this.registrationForm.get('email');
-        if (checkedValue) {
-          email!.setValidators(Validators.required);
-        } else {
-          email!.clearValidators();
-        }
-        email!.updateValueAndValidity();
-      });
-  }
-
-  get userName() {
-    return this.registrationForm.get('userName');
-  }
-
-  get email() {
-    return this.registrationForm.get('email');
-  }
-
-  get alternateEmails() {
-    return this.registrationForm.get('alternateEmails') as FormArray;
-  }
-
-  addAlternateEmail() {
-    this.alternateEmails.push(this.fb.control(''));
-  }
-
-  loadAPIData() {
-    // this.registrationForm.setValue({
-    //   userName: 'Bruce',
-    //   password: 'test',
-    //   confirmPassword: 'test',
-    //   address: {
-    //     city: 'City',
-    //     state: 'State',
-    //     postalCode: '123456'
-    //   }
-    // });
-
-    this.registrationForm.patchValue({
-      userName: 'Bruce',
-      password: 'test',
-      confirmPassword: 'test'
+    this.editForm = [];
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id') || "");
+      this.id = id;
+      // console.log(params)
     });
   }
 
-  onSubmit() {
-    this._registrationService.register(this.registrationForm.value)
+  ngOnInit() {
+    this.editForm = this.fb.group({
+      user: this.fb.group({
+        name: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],
+        email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+        password: [''],
+        password_confirmation: [''],
+      }),
+    }, { });
+    this.getEditUserInfo();
+  }
+
+  getEditUserInfo = () => {
+    this.service.getEditUserInfo(this.id)
       .subscribe(
-        response => console.log('Success!', response),
+        response => {
+          if (response.user) {
+            this.user = response.user;
+            this.editForm.patchValue({
+              user: {
+                name: response.user.name,
+                email: response.user.email,
+              }
+            });
+            this.gravatar = response.gravatar;
+          }
+          if (response.flash) {
+            // flashMessage(...response.flash)
+            this._toastService.error("Please log in.");
+            this.router.navigateByUrl('/');
+          }
+        },
         error => console.error('Error!', error)
       );
+  }
+
+  get name() {
+    return this.editForm.get('user').get('name');
+  }
+
+  get email() {
+    return this.editForm.get('user').get('email');
+  }
+
+  get password() {
+    return this.editForm.get('user').get('password');
+  }
+
+  get password_confirmation() {
+    return this.editForm.get('user').get('password_confirmation');
+  }
+
+  handleUpdate = (e: Event) => {
+    this.service.updateUser(this.id, this.editForm.value)
+      .subscribe(
+        response => {
+          this.inputEl.nativeElement.blur();
+          if (response.flash_success) {
+            // flashMessage(...response.flash_success)
+            this._toastService.success("Profile updated");
+            this.editForm.patchValue({
+              user: {
+                name: '',
+                email: '',
+              }
+            });
+            this.getEditUserInfo();
+          }
+          if (response.error) {
+            this.errors = response.error;
+          }
+        },
+        error => console.error('Error!', error)
+      );
+    e.preventDefault()
   }
 
 }

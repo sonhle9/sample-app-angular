@@ -41,7 +41,7 @@ export class SessionsNewComponent implements OnInit {
     });
     this.loginForm = this.fb.group({
       session: this.fb.group({
-        email: ['', [Validators.required]],
+        email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
         password: ['', [Validators.required]],
         remember_me: [false],
       }),

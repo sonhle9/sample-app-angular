@@ -9,7 +9,7 @@
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
     >
-    <div formGroupName="session">
+    <ng-container formGroupName="session">
 
       <label htmlFor="session_email">Email</label>
       <input
@@ -46,7 +46,7 @@
         <span>Remember me on this computer</span>
       </label>
       <input type="submit" name="commit" value="Log in" class="btn btn-primary" data-disable-with="Log in" />
-    </div>
+    </ng-container>
     </form>
     <p>New user? <a routerLink="/signup" routerLinkActive="active">Sign up now!</a></p>
   </div>

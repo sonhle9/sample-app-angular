@@ -11,7 +11,7 @@
     (ngSubmit)="onSubmit()"
     >
       {{errorMessage | json}}
-    <div formGroupName="user">
+    <ng-container formGroupName="user">
       <label htmlFor="user_name">Name</label>
       <input
       class="form-control"
@@ -37,6 +37,7 @@
       />
       <div *ngIf="email!.invalid && email!.touched">
         <small class="text-danger" *ngIf="email!.errors?.required">Email can't be blank</small>
+        <small class="text-danger" *ngIf="email!.errors?.pattern">Email is invalid</small>
       </div>
 
       <label htmlFor="user_password">Password</label>
@@ -74,9 +75,9 @@
       value="Create my account" 
       class="btn btn-primary" 
       data-disable-with="Create my account"
-      [disabled]="!registrationForm.valid"
+      [disabled]="!registrationForm.valid || registrationForm.pristine"
       />
-    </div>
+    </ng-container>
     </form>  
 
     {{registrationForm.status | json}}

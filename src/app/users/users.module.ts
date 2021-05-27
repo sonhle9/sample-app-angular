@@ -6,6 +6,7 @@ import { UsersIndexComponent } from './users-index/users-index.component';
 import { UsersShowComponent } from './users-show/users-show.component';
 import { UsersNewComponent } from './users-new/users-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsersEditService } from './users-edit/users-edit.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UsersIndexComponent,
     UsersShowComponent,
     UsersNewComponent,
-  ]
+  ],
+  providers: [ UsersEditService ],
 })
 export class UsersModule { }

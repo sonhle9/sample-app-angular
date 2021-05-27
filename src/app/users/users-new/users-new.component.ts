@@ -44,7 +44,7 @@ export class UsersNewComponent implements OnInit {
     this.registrationForm = this.fb.group({
       user: this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],
-        email: ['', [Validators.required]],
+        email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
         password: ['', [Validators.required]],
         password_confirmation: ['', [Validators.required]],
       }),
