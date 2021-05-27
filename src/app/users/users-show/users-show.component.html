@@ -1,40 +1,105 @@
-<p>users-show works!</p>
-<h3>You selected user with id = {{userId}}</h3>
-<p>
-  <button (click)="goPrevious()">Previous</button>
-  <button (click)="goNext()">Next</button>
-</p>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+        <img alt="Example User" class="gravatar" src="https://secure.gravatar.com/avatar/{{user.gravatar_id}}?s={{user.size}}" />
+        {{user.name}}
+      </h1>
+    </section>
+    <section class="stats">
+      <div class="stats">
+        <a routerLink="/users/{{user.id}}/following" routerLinkActive="active">
+          <strong id="following" class="stat">
+            {{user.following}}
+          </strong>
+          following
+        </a>
+        <a routerLink="/users/{{user.id}}/followers" routerLinkActive="active">
+          <strong id="followers" class="stat">
+            {{user.followers}}
+          </strong>
+          followers
+        </a>
+      </div>
+    </section>
+  </aside>
 
-<div>
-  <button (click)="gotoUsers()">Back</button>
+  <div class="col-md-8">
+    <div id="follow_form" *ngIf="current_user && current_user.id != id">
+      <ng-container *ngIf="user.current_user_following_user; then thenBlock; else elseBlock"></ng-container>
+    </div>
+    <ng-container *ngIf="microposts.length > 0">
+    <h3>Microposts ({{total_count}})</h3>
+    <ol class="microposts">
+      <li *ngFor="let i of microposts" id= 'micropost-{{i.id}}' >
+        <a href='/users/{{i.user_id}}'>
+          <img alt={{i.user_name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{user.gravatar_id}}?s=50" />
+        </a>
+        <span class="user"><a href='/users/{{i.user_id}}'>{{user.name}}</a></span>
+        <span class="content">
+          {{i.content}}
+          <img *ngIf="i.image" alt="Example User" src='{{i.image}}' />
+        </span>
+        <span class="timestamp">
+          Posted {{i.timestamp}} ago.
+          <a *ngIf="current_user.id === i.user_id" [routerLink]="" (click)="removeMicropost(i.id)">delete</a>
+        </span>
+      </li>
+    </ol>
+
+    <ngb-pagination 
+      [collectionSize]="total_count" 
+      [pageSize]="itemsPerPage" 
+      [(page)]="page" 
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      [maxSize]="5" 
+      (pageChange)="onPageChange(page)">
+    </ngb-pagination>
+    </ng-container>
+  </div>
 </div>
 
-<p>
-  <button (click)="showFollowing()">following</button>
-  <button (click)="showFollowers()">followers</button>
-</p>
-
-<router-outlet></router-outlet>
-
-<h2>User Detail</h2>
-<h3>{{errorMsg}}</h3>    
-<ul *ngFor="let user of users">
-  <li>{{user.id}}. {{user.name}} - {{user.age}}</li>
-</ul>
-<h2>Welcome {{name}}</h2>
-<h2>{{url}}</h2>
-<h2 class="text-success">Codevolution</h2>
-<h2 [class]="successClass">Codevolution</h2>
-<h2 [class.text-danger]="hasError">Codevolution</h2>
-<h2 [ngClass]="messageClasses">Message</h2>
-<h2 [style.color]="'orange'">Style Binding</h2> 
-<h2 [style.color]="hasError ? 'red' : 'green'">Style Binding 2</h2>            
-<h2 [style.color]="highlightColor">Style Binding 3</h2>
-<h2 [ngStyle]="titleStyles">Style Binding 4</h2>
-<button (click)="onClick($event)">Greet</button>
-<button (click)="greeting = 'Welcome Vishwas'">Greet Vishwas</button> 
-<h2>{{greeting}}</h2>
-<input #myInput type="text">
-<button (click)="logMessage(myInput)">Log</button>
-<input type="text" [(ngModel)]="name">
-{{name}}
+<ng-template #thenBlock>
+  <form
+  action="/relationships/{{id}}"
+  acceptCharset="UTF-8"
+  data-remote="true"
+  method="post"
+  (ngSubmit)="handleUnfollow($event)"
+  >
+    <input
+    type="submit"
+    name="commit"
+    value="Unfollow"
+    class="btn"
+    data-disable-with="Unfollow"
+    />
+  </form>
+</ng-template>
+<ng-template #elseBlock>
+  <form
+  action="/relationships"
+  acceptCharset="UTF-8"
+  data-remote="true"
+  method="post"
+  (ngSubmit)="handleFollow($event)"
+  >
+    <div>
+    <input
+    type="hidden"
+    name="followed_id"
+    id="followed_id"
+    value={{id}}
+    />
+    </div>
+    <input
+    type="submit"
+    name="commit"
+    value="Follow"
+    class="btn btn-primary"
+    data-disable-with="Follow"
+    />
+  </form>
+</ng-template>

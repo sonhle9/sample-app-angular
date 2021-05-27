@@ -7,6 +7,8 @@ import { UsersShowComponent } from './users-show/users-show.component';
 import { UsersNewComponent } from './users-new/users-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersEditService } from './users-edit/users-edit.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersShowService } from './users-show/users-show.service';
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import { UsersEditService } from './users-edit/users-edit.service';
     UsersRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
   ],
   declarations: [
     UsersEditComponent,
@@ -21,6 +24,6 @@ import { UsersEditService } from './users-edit/users-edit.service';
     UsersShowComponent,
     UsersNewComponent,
   ],
-  providers: [ UsersEditService ],
+  providers: [ UsersEditService, UsersShowService ],
 })
 export class UsersModule { }

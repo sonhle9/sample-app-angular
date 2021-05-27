@@ -36,7 +36,7 @@ export class StaticPagesHomeComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private servive: StaticPagesHomeService,
+    private service: StaticPagesHomeService,
     private _toastService: ToastService
   ) {
     this.getState = this.store.select(selectAuthState);
@@ -52,7 +52,7 @@ export class StaticPagesHomeComponent implements OnInit {
   }
 
   setFeedsWhenStartScreen = () => {
-    this.servive.getMicropostFeed(this.page).subscribe(
+    this.service.getMicropostFeed(this.page).subscribe(
       (response: any) => {
         if (response.feed_items) {
           this.feed_items = response.feed_items;
@@ -144,7 +144,7 @@ export class StaticPagesHomeComponent implements OnInit {
   }
 
   setFeedsAfterAction = () => {
-    this.servive.getMicropostFeed(this.page).subscribe(
+    this.service.getMicropostFeed(this.page).subscribe(
       (response: any) => {
         if (response.feed_items) {
           this.feed_items = response.feed_items;
@@ -159,7 +159,7 @@ export class StaticPagesHomeComponent implements OnInit {
   }
 
   removeMicropost = (micropostid: number) => {
-    this.servive.removeMicropost(micropostid).subscribe(
+    this.service.removeMicropost(micropostid).subscribe(
       (response: any) => {
         if (response.flash) {
           // flashMessage(...response.flash)

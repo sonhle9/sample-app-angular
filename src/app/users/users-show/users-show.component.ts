@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-// Angular Tutorial - 25 - Route Parameters Get ID
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ToastService } from 'angular-toastify';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { AppState, selectAuthState } from 'src/app/ngrx/app.states';
+import { UsersShowService } from './users-show.service';
 
 @Component({
   selector: 'app-users-show',
@@ -9,74 +14,104 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class UsersShowComponent implements OnInit {
 
-  public users = [
-    {"id": 1, "name": "Andrew", "age": 30},
-    {"id": 2, "name": "Brandon", "age": 25},
-    {"id": 3, "name": "Christina", "age": 26},
-    {"id": 4, "name": "Elena", "age": 28},
-    {"id": 5, "name": "Felicia", "age": 25}    
-  ]
-  public errorMsg = []
-  public name = "Codevolution";
-  public url = window.location.href;
-  public successClass = "text-success";
-  public hasError = false
-  public isSpecial = true;
-  public messageClasses = {
-    "text-success": !this.hasError,
-    "text-danger": this.hasError,
-    "text-special": this.isSpecial
-  };
-  public highlightColor = "orange";
-  public titleStyles = {
-    color: "blue",
-    fontStyle: "italic"
-  }
-  public greeting = "";
+  getState!: Observable<any>;
+  isAuthenticated = false;
+  errorMessage = '';
+  pageSize!: number;
+  itemsPerPage = 5;
+
+  user:any = {};
+  microposts:any = [];
+  id_relationships = null;
+  page = 1;
+  total_count = 1;
+  current_user!: User;
+  id!: number;
+  
   constructor(
+    private service: UsersShowService,
+    private router: Router,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
-  public userId:any;
-  ngOnInit() {
-    // this.route.queryParams.subscribe(params => {
-    //   this.name = params['name'];
-    // });
-    //let id = parseInt(this.route.snapshot.paramMap.get('id'));
+    private _toastService: ToastService,
+    private store: Store<AppState>,
+  ) { 
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = parseInt(params.get('id') || "");
-      this.userId = id;
+      this.id = id;
+      // console.log(params)
     });
+    this.getState = this.store.select(selectAuthState);
   }
 
-  greetUser(){
-    return "Hello " + this.name;
-  }
-  onClick(event:any){
-    this.greeting = event.type;
-  }
-  logMessage(value:any){
-  }
-  goPrevious() {
-    let previousId = this.userId - 1;
-    this.router.navigate(['/users', previousId]);
-  }
-  goNext() {
-    let nextId = this.userId + 1;
-    this.router.navigate(['/users', nextId]);
+  ngOnInit() {
+    this.getState.subscribe((state) => {
+      this.isAuthenticated = state.isAuthenticated;
+      this.current_user = state.user;
+      this.errorMessage = state.errorMessage;
+    });
+    this.getShowUserPageInfo();
   }
 
-  gotoUsers() {
-    let selectedId = this.userId ? this.userId : null;
-    //this.router.navigate(['/users', {id: selectedId}]);   
-    this.router.navigate(['../', { id: selectedId }], { relativeTo: this.route });
+  getShowUserPageInfo = () => {
+    this.service.getShowUserPageInfo(this.id, this.page).subscribe(
+      response => {
+        if (response.user) {
+          this.user = response.user;
+          this.microposts = response.microposts;
+          this.total_count = response.total_count;
+          this.id_relationships = response.id_relationships;
+        } else {
+          this.user = {};
+          this.microposts = [];
+        }
+      },
+      error => console.error('Error!', error)
+    );
   }
 
-  showFollowing(){
-    this.router.navigate(['following'], { relativeTo: this.route });
+  public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+    this.getShowUserPageInfo();
   }
 
-  showFollowers(){
-    this.router.navigate(['followers'], { relativeTo: this.route });
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
+  }
+
+  handleUnfollow = (e: Event) => {
+    this.service.deleteHandleUnfollow(this.id_relationships).subscribe(
+      response => {
+        if (response.unfollow) {
+          this.id_relationships = null;
+        }
+      },
+      error => console.log(error),
+    );
+    e.preventDefault()
+  }
+
+  handleFollow = (e: Event) => {
+    this.service.postHandleFollow(this.id).subscribe(
+      response => {
+        if (response.follow) {
+          this.id_relationships = null;
+        }
+      },
+      error => console.log(error),
+    );
+    e.preventDefault()
+  }
+
+  removeMicropost = (micropostid: number) => {
+    this.service.removeMicropost(micropostid).subscribe(
+      (response: any) => {
+        if (response.flash) {
+          // flashMessage(...response.flash)
+          this._toastService.success("Micropost deleted");
+          this.getShowUserPageInfo();
+        }
+      },
+      error => console.log(error),
+    );
   }
 }
