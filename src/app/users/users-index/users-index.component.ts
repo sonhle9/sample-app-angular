@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-// import { UserService } from '../user.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ToastService } from 'angular-toastify';
+import { Observable } from 'rxjs/Observable';
+import { User } from 'src/app/models/user';
+import { AppState, selectAuthState } from '../../ngrx/app.states';
+import { UsersIndexService } from './users-index.service';
+
 
 @Component({
   selector: 'app-users-index',
@@ -8,46 +14,75 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersIndexComponent implements OnInit {
 
-  // users:any[] = []
-  // public errorMsg = []
-  // constructor(private userService: UserService) { }
+  getState: Observable<any>;
+  isAuthenticated = false;
+  user!: User;
+  errorMessage = '';
+  
+  itemsPerPage = 5;
+  pageSize!: number;
+  users:any[] = [];
+  page = 1;
+  total_count = 1;
+  current_user!:User;
+  @ViewChild('inputEl') private inputEl!: ElementRef;
+  @ViewChild('inputImage') private inputImage!: ElementRef;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private store: Store<AppState>,
+    private service: UsersIndexService,
+    private _toastService: ToastService
+  ) {
+    this.getState = this.store.select(selectAuthState);
   }
 
-  // ngOnInit() {
-  //   this.getUsers();
-  //   console.log(this.users);
-  // }
+  ngOnInit() {
+    this.getUsersWhenStartScreen();
+    this.getState.subscribe((state) => {
+      this.isAuthenticated = state.isAuthenticated;
+      this.current_user = state.user;
+      this.errorMessage = state.errorMessage;
+    });
+  }
 
-  // getUsers(): void {
-  //   this.userService.getUsers()
-  //       .subscribe(users => this.users = users,
-  //                  error => this.errorMsg = error);;
-  // }
+  getUsersWhenStartScreen = () => {
+    this.service.getUsersWhenStartScreen(this.page).subscribe(
+      (response: any) => {
+        if (response.users) {
+          this.users = response.users;
+          this.total_count = response.total_count;
+        } else {
+          this.users = [];
+        }
+      },
+      (error: any) => console.log(error),
+    );
+  }
 
-  // removeUser = (index:any, userid:any) => {
-  //   let sure = window.confirm("Are you sure?");
-  //   if (sure === true) {
-  //     console.log("remove User index:"+index+" id:"+userid);
-  //     // axios
-  //     //   .delete(
-  //     //     'https://railstutorialapi.herokuapp.com/api/users/'+userid, { withCredentials: true }
-  //     //   )
-  //     //   .then(response => {
-  //     //     if (response.data.flash) {
-  //     //       const newUsers = [...users];
-  //     //       newUsers.splice(index, 1);
-  //     //       setUsers(newUsers);
-  //     //       flashMessage(...response.data.flash);
-  //     //     }
-  //     //   })
-  //     //   .catch(error => {
-  //     //     console.log(error)
-  //     //   });
-  //   }
-  // };
+  public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+    this.getUsersWhenStartScreen();
+  }
 
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
+  }
+
+  removeUser = (index: number, userid: number) => {
+    let sure = window.confirm("Are you sure?")
+    if (sure === true) {
+      this.service.removeUser(userid, this.page).subscribe(
+        (response: any) => {
+          if (response.flash) {
+            const newUsers = [...this.users]
+            newUsers.splice(index, 1)
+            this.users = newUsers;
+            // flashMessage(...response.data.flash)
+            this._toastService.success("User deleted");
+          }
+        },
+        (error: any) => console.log(error),
+      );
+    }
+  }
 }

@@ -8,7 +8,7 @@ import { UsersNewComponent } from './users-new/users-new.component';
 import { AuthGuard } from '../auth.guard';
 
 const routes: Routes = [
-  { path: "users", component: UsersIndexComponent },
+  { path: "", component: UsersIndexComponent },
   { path: "new", component: UsersNewComponent },
   { path: ":id", component: UsersShowComponent, canActivate: [AuthGuard] },
   { path: ":id/edit", component: UsersEditComponent, canActivate: [AuthGuard] },

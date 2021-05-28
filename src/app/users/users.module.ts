@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersEditService } from './users-edit/users-edit.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersShowService } from './users-show/users-show.service';
+import { UsersIndexService } from './users-index/users-index.service';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { UsersShowService } from './users-show/users-show.service';
     UsersShowComponent,
     UsersNewComponent,
   ],
-  providers: [ UsersEditService, UsersShowService ],
+  providers: [ UsersEditService, UsersShowService, UsersIndexService ],
 })
 export class UsersModule { }
