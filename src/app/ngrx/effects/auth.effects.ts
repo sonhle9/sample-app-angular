@@ -15,7 +15,7 @@ import {
   LogIn, LogInSuccess, LogInFailure,
   SignUp, SignUpSuccess, SignUpFailure,
   GetStatus,
-  LogOut, GetStatusSuccess, GetStatusFailure
+  LogOut, GetStatusSuccess, GetStatusFailure, LogOutSuccess, LogOutFailure
 } from '../actions/auth.actions';
 import { User } from 'src/app/models/user';
 
@@ -49,7 +49,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap((user) => {
       // localStorage.setItem('token', user.payload.token);
-      localStorage.setItem('token', user);
+      // localStorage.setItem('token', user);
       this.router.navigateByUrl('/');
     })
   );
@@ -88,11 +88,27 @@ export class AuthEffects {
     ofType(AuthActionTypes.SIGNUP_FAILURE)
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   public LogOut: Observable<any> = this.actions.pipe(
-    ofType(AuthActionTypes.LOGOUT),
+    ofType(AuthActionTypes.LOGOUT))
+    .map((action: LogOut) => action)
+    .switchMap(() => {
+      return this.authService.logoutUser()
+        .map(() => {
+          return new LogOutSuccess();
+        })
+        .catch((error) => {
+          return Observable.of(new LogOutFailure({ error: error }));
+        });
+    });
+
+  @Effect({ dispatch: false })
+  LogOutSuccess: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.LOGOUT_SUCCESS),
     tap((user) => {
-      localStorage.removeItem('token');
+      // localStorage.setItem('token', user.payload.token);
+      // localStorage.setItem('token', user);
+      this.router.navigateByUrl('/');
     })
   );
 

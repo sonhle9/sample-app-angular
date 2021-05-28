@@ -31,8 +31,10 @@ export class AuthService {
   }
 
   logoutUser() {
-    localStorage.removeItem('token')
-    this._router.navigate(['/events'])
+    // localStorage.removeItem('token')
+    // this._router.navigate(['/events'])
+    const url = `${this.BASE_URL}/logout`;
+    return this.http.delete(url, { withCredentials: true })
   }
 
   getToken() {
