@@ -42,7 +42,7 @@ export class StaticPagesHomeComponent implements OnInit {
     this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setFeedsWhenStartScreen();
     this.getState.subscribe((state) => {
       this.isAuthenticated = state.isAuthenticated;

@@ -48,7 +48,7 @@ export class SessionsNewComponent implements OnInit {
     }, { });
   }
 
-  onSubmit() {
+  onSubmit(): any {
     this.store.dispatch(new LogIn(this.loginForm.value));
   }
 

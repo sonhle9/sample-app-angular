@@ -23,7 +23,7 @@ export class LayoutsHeaderComponent implements OnInit {
     this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getState.subscribe((state) => {
       this.isAuthenticated = state.isAuthenticated;
       this.user = state.user;
@@ -32,6 +32,6 @@ export class LayoutsHeaderComponent implements OnInit {
   }
 
   logOut(): void {
-    this.store.dispatch(new LogOut);
+    this.store.dispatch(new LogOut());
   }
 }

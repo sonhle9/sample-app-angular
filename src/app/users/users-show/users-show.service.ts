@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { User } from 'src/app/models/user';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UsersShowService {
@@ -19,22 +19,22 @@ export class UsersShowService {
     }
   }
 
-  getShowUserPageInfo(id: number, page: number) {
+  getShowUserPageInfo(id: number, page: number): Observable<any> {
     const url = `${this.BASE_URL}/users/` + id;
     return this.http.get<any>(url, {params: { page }, withCredentials: true});
   }
 
-  deleteHandleUnfollow(id_relationships: any) {
+  deleteHandleUnfollow(id_relationships: any): Observable<any> {
     const url = `${this.BASE_URL}/relationships/` + id_relationships;
     return this.http.delete<any>(url, { withCredentials: true });
   }
 
-  postHandleFollow(id: number) {
+  postHandleFollow(id: number): Observable<any> {
     const url = `${this.BASE_URL}/relationships`;
     return this.http.post<any>(url, {followed_id: id}, { withCredentials: true });
   }
 
-  removeMicropost(micropostid: number) {
+  removeMicropost(micropostid: number): Observable<any> {
     const url = `${this.BASE_URL}/microposts/` + micropostid;
     return this.http.delete<any>( url, { withCredentials: true });
   }

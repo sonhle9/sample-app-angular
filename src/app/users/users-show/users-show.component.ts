@@ -36,14 +36,14 @@ export class UsersShowComponent implements OnInit {
     private store: Store<AppState>,
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id') || '', 10);
+      const id = parseInt(params.get('id') || '', 10);
       this.id = id;
       // console.log(params)
     });
     this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): any {
     this.getState.subscribe((state) => {
       this.isAuthenticated = state.isAuthenticated;
       this.current_user = state.user;

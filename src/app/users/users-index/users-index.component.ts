@@ -36,7 +36,7 @@ export class UsersIndexComponent implements OnInit {
     this.getState = this.store.select(selectAuthState);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUsersWhenStartScreen();
     this.getState.subscribe((state) => {
       this.isAuthenticated = state.isAuthenticated;

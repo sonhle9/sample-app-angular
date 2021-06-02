@@ -12,7 +12,7 @@ import { GetStatus } from './ngrx/actions/auth.actions';
 export class AppComponent implements OnInit {
   title = 'sample-app-angular';
   constructor(private store: Store<AppState>){}
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(new GetStatus());
   }
 }

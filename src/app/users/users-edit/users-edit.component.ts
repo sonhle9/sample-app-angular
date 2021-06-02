@@ -38,7 +38,7 @@ export class UsersEditComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.editForm = this.fb.group({
       user: this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3), ForbiddenNameValidator(/password/)]],

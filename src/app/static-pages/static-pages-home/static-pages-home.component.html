@@ -38,7 +38,7 @@
         >
           <div *ngIf="errorMessage" id="error_explanation">
             <div class="alert alert-danger">
-              The form contains  error.
+              The form contains {{errorMessage.length}} error.
             </div>
             <ul>
               <li *ngFor="let error of errorMessage">{{error}}</li>
