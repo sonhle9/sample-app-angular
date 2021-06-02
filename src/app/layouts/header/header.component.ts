@@ -1,7 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState, selectAuthState } from '../../ngrx/app.states';
+import { LogOut } from '../../ngrx/actions/auth.actions';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+
+  getState: Observable<any>;
+  isAuthenticated = false;
+  user = null;
+  errorMessage = null;
+
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.getState = this.store.select(selectAuthState);
+  }
+
+  ngOnInit(): void {
+    this.getState.subscribe((state) => {
+      this.isAuthenticated = state.isAuthenticated;
+      this.user = state.user;
+      this.errorMessage = state.errorMessage;
+    });
+  }
+
+  logOut(): void {
+    this.store.dispatch(new LogOut());
+  }
 }

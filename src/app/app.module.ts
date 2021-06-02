@@ -18,6 +18,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeService } from './static-pages/home/home.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     AngularToastifyModule,
+    NgbModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([AuthEffects]),
@@ -42,7 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
       logOnly: environment.production,
     }),
   ],
-  providers: [ ToastService, AuthService ],
+  providers: [ ToastService, AuthService, HomeService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
