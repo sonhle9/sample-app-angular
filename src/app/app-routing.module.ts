@@ -14,6 +14,7 @@ import { PageNotFoundComponent } from './static-pages/page-not-found/page-not-fo
 import { EventsComponent } from './others/events/events.component';
 import { SpecialEventsComponent } from './others/special-events/special-events.component';
 import { AuthGuard } from './auth.guard';
+import { UsersNewComponent } from './users/users-new/users-new.component';
 
 const routes: Routes = [
   { path: '', component: StaticPagesHomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
+  { path: 'signup', component: UsersNewComponent },
   { path: 'login', component: SessionsNewComponent },
   // { path: 'users/:id/:follow', component: UsersShowFollowComponent },
 
