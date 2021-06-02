@@ -26,7 +26,7 @@ export class StaticPagesHomeComponent implements OnInit {
   total_count = 1;
   following = null;
   followers = null;
-  micropost!: number;
+  micropost = 0;
   gravatar!: string;
   content = '';
   image!: string;
