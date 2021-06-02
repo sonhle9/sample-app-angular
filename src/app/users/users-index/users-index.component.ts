@@ -18,13 +18,13 @@ export class UsersIndexComponent implements OnInit {
   isAuthenticated = false;
   user!: User;
   errorMessage = '';
-  
+
   itemsPerPage = 5;
   pageSize!: number;
-  users:any[] = [];
+  users: any[] = [];
   page = 1;
   total_count = 1;
-  current_user!:User;
+  current_user!: User;
   @ViewChild('inputEl') private inputEl!: ElementRef;
   @ViewChild('inputImage') private inputImage!: ElementRef;
 
@@ -69,16 +69,16 @@ export class UsersIndexComponent implements OnInit {
   }
 
   removeUser = (index: number, userid: number) => {
-    let sure = window.confirm("Are you sure?")
+    let sure = window.confirm('Are you sure?');
     if (sure === true) {
       this.service.removeUser(userid, this.page).subscribe(
         (response: any) => {
           if (response.flash) {
-            const newUsers = [...this.users]
-            newUsers.splice(index, 1)
+            const newUsers = [...this.users];
+            newUsers.splice(index, 1);
             this.users = newUsers;
             // flashMessage(...response.data.flash)
-            this._toastService.success("User deleted");
+            this._toastService.success('User deleted');
           }
         },
         (error: any) => console.log(error),

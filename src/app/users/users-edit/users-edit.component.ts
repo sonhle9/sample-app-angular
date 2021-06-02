@@ -15,24 +15,24 @@ import { ToastService } from 'angular-toastify';
 })
 export class UsersEditComponent implements OnInit {
 
-  editForm:any;
+  editForm: any;
 
   id!: number;
-  user:User = {};
+  user: User = {};
   errors = '';
   gravatar = '';
   @ViewChild('inputEl') private inputEl!: ElementRef;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private service: UsersEditService,
     private router: Router,
     private route: ActivatedRoute,
-    private _toastService: ToastService
-  ) { 
+    private toastService: ToastService
+  ) {
     this.editForm = [];
     this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id') || "");
+      const id = parseInt(params.get('id') || '', 10);
       this.id = id;
       // console.log(params)
     });
@@ -66,7 +66,7 @@ export class UsersEditComponent implements OnInit {
           }
           if (response.flash) {
             // flashMessage(...response.flash)
-            this._toastService.error("Please log in.");
+            this.toastService.error('Please log in.');
             this.router.navigateByUrl('/');
           }
         },
@@ -97,7 +97,7 @@ export class UsersEditComponent implements OnInit {
           this.inputEl.nativeElement.blur();
           if (response.flash_success) {
             // flashMessage(...response.flash_success)
-            this._toastService.success("Profile updated");
+            this.toastService.success('Profile updated');
             this.editForm.patchValue({
               user: {
                 name: '',
@@ -112,7 +112,7 @@ export class UsersEditComponent implements OnInit {
         },
         error => console.error('Error!', error)
       );
-    e.preventDefault()
+    e.preventDefault();
   }
 
 }

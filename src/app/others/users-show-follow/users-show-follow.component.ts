@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class UsersShowFollowComponent implements OnInit {
 
   public master = 'Matt';
-  public maessage = "";
+  public maessage = '';
 
   constructor() { }
 

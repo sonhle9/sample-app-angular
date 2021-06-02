@@ -116,7 +116,7 @@ export class AuthEffects {
   GetStatus: Observable<any> = this.actions.pipe(
   ofType(AuthActionTypes.GET_STATUS))
   .switchMap(() => {
-    return this.authService.getStatus()  
+    return this.authService.getStatus()
       .map((user) => {
         return new GetStatusSuccess({user});
       })

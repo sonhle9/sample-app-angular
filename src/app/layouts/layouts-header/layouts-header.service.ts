@@ -20,12 +20,12 @@ export class LayoutsHeaderService {
 
   getMicropostFeed(page: number) {
     const url = `${this.BASE_URL}`;
-    return this.http.get<any>(url, {params: {page: page},
+    return this.http.get<any>(url, {params: { page },
       withCredentials: true})
   }
 
   removeMicropost(micropostid: number) {
-    const url = `${this.BASE_URL}/microposts/`+micropostid;
+    const url = `${this.BASE_URL}/microposts/` + micropostid;
     return this.http.delete<any>(url,{ withCredentials: true })
   }
 }

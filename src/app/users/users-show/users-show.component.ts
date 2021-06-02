@@ -20,23 +20,23 @@ export class UsersShowComponent implements OnInit {
   pageSize!: number;
   itemsPerPage = 5;
 
-  user:any = {};
-  microposts:any = [];
+  user: any = {};
+  microposts: any = [];
   id_relationships = null;
   page = 1;
   total_count = 1;
   current_user!: User;
   id!: number;
-  
+
   constructor(
     private service: UsersShowService,
     private router: Router,
     private route: ActivatedRoute,
     private _toastService: ToastService,
     private store: Store<AppState>,
-  ) { 
+  ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id') || "");
+      let id = parseInt(params.get('id') || '', 10);
       this.id = id;
       // console.log(params)
     });
@@ -87,7 +87,7 @@ export class UsersShowComponent implements OnInit {
       },
       error => console.log(error),
     );
-    e.preventDefault()
+    e.preventDefault();
   }
 
   handleFollow = (e: Event) => {
@@ -99,7 +99,7 @@ export class UsersShowComponent implements OnInit {
       },
       error => console.log(error),
     );
-    e.preventDefault()
+    e.preventDefault();
   }
 
   removeMicropost = (micropostid: number) => {
@@ -107,7 +107,7 @@ export class UsersShowComponent implements OnInit {
       (response: any) => {
         if (response.flash) {
           // flashMessage(...response.flash)
-          this._toastService.success("Micropost deleted");
+          this._toastService.success('Micropost deleted');
           this.getShowUserPageInfo();
         }
       },

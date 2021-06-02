@@ -81,7 +81,7 @@ import { StaticPagesHomeService } from './static-pages/static-pages-home/static-
     AngularToastifyModule,
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([AuthEffects]),
-    
+
     StoreModule.forRoot(reducers),
     // Instrumentation must be imported after importing StoreModule (config is optional)
     StoreDevtoolsModule.instrument({
@@ -91,7 +91,7 @@ import { StaticPagesHomeService } from './static-pages/static-pages-home/static-
   ],
   // providers: [UserService],
   // providers: [],
-  providers: [AuthService, AuthGuard, EventService, ToastService, StaticPagesHomeService, 
+  providers: [AuthService, AuthGuard, EventService, ToastService, StaticPagesHomeService,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

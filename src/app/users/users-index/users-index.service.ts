@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { User } from 'src/app/models/user';
 
@@ -15,17 +15,17 @@ export class UsersIndexService {
     if (environment.production) {
       this.BASE_URL = 'https://railstutorialapi.herokuapp.com/api';
     } else {
-      this.BASE_URL = "http://localhost:3001/api";
+      this.BASE_URL = 'http://localhost:3001/api';
     }
   }
 
   getUsersWhenStartScreen(page: number) {
     const url = `${this.BASE_URL}/users`;
-    return this.http.get<User[]>(url, {params: {page: page}, withCredentials: true})
+    return this.http.get<User[]>(url, {params: { page }, withCredentials: true});
   }
 
   removeUser(userid: number, page: number) {
-    const url = `${this.BASE_URL}/users/`+userid;
-    return this.http.delete<any>(url, {params: {page: page}, withCredentials: true})
+    const url = `${this.BASE_URL}/users/` + userid;
+    return this.http.delete<any>(url, {params: { page }, withCredentials: true});
   }
 }

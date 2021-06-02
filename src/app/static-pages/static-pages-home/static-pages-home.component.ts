@@ -84,11 +84,11 @@ export class StaticPagesHomeComponent implements OnInit {
 
   handleImageInput = (e: any) => {
     if (e.target.files[0]) {
-      const size_in_megabytes = e.target.files[0].size / 1024 / 1024
+      const size_in_megabytes = e.target.files[0].size / 1024 / 1024;
       if (size_in_megabytes > 512) {
-        alert("Maximum file size is 512MB. Please choose a smaller file.")
+        alert('Maximum file size is 512MB. Please choose a smaller file.');
         this.image = '';
-        e.target.value = null
+        e.target.value = null;
       } else {
         this.image = e.target.files[0];
       }
@@ -96,26 +96,26 @@ export class StaticPagesHomeComponent implements OnInit {
   }
 
   handleSubmit = (e: any) => {
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append('micropost[content]',
       this.content
-    )
+    );
     if (this.image) {
       formData.append('micropost[image]',
         this.image,
         this.inputImage.nativeElement.value.name
-      )
+      );
     }
 
-    var BASE_URL = ''
+    let BASE_URL = '';
     if (environment.production) {
       BASE_URL = 'https://railstutorialapi.herokuapp.com/api';
     } else {
-      BASE_URL = "http://localhost:3001/api";
+      BASE_URL = 'http://localhost:3001/api';
     }
 
     fetch(BASE_URL + `/microposts`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
       credentials: 'include'
     })
@@ -124,10 +124,10 @@ export class StaticPagesHomeComponent implements OnInit {
         if (data.flash) {
           this.inputEl.nativeElement.blur();
           // flashMessage(...data.flash)
-          this._toastService.success("Micropost created!");
+          this._toastService.success('Micropost created!');
           this.content = '';
           this.image = '';
-          // document.querySelector('[name="micropost[image]"]').value = null;
+          // document.querySelector('[name='micropost[image]']').value = null;
           this.inputImage.nativeElement.value = null;
           this.errorMessage = '';
           this.setFeedsAfterAction();
@@ -138,9 +138,9 @@ export class StaticPagesHomeComponent implements OnInit {
         }
 
       })
-      )
+      );
 
-    e.preventDefault()
+    e.preventDefault();
   }
 
   setFeedsAfterAction = () => {
@@ -163,7 +163,7 @@ export class StaticPagesHomeComponent implements OnInit {
       (response: any) => {
         if (response.flash) {
           // flashMessage(...response.flash)
-          this._toastService.success("Micropost deleted");
+          this._toastService.success('Micropost deleted');
           this.setFeedsAfterAction();
         }
       },

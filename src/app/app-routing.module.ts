@@ -16,17 +16,17 @@ import { SpecialEventsComponent } from './others/special-events/special-events.c
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: "", component: StaticPagesHomeComponent },
-  { path: "about", component: StaticPagesAboutComponent },
-  { path: "contact", component: StaticPagesContactComponent },
-  { path: "help", component: StaticPagesHelpComponent },
+  { path: '', component: StaticPagesHomeComponent },
+  { path: 'about', component: StaticPagesAboutComponent },
+  { path: 'contact', component: StaticPagesContactComponent },
+  { path: 'help', component: StaticPagesHelpComponent },
   {
     path: 'users',
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
-  { path: "login", component: SessionsNewComponent },
-  // { path: "users/:id/:follow", component: UsersShowFollowComponent },
-  
+  { path: 'login', component: SessionsNewComponent },
+  // { path: 'users/:id/:follow', component: UsersShowFollowComponent },
+
   // Angular Tutorial - 24 - Wildcard Route and Redirecting Routes
   // ng g c PageNotFound -t -s for inline template and style
   {

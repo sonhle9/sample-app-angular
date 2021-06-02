@@ -16,7 +16,7 @@ export class ShadedStatsComponent implements OnInit {
   }
 
   addd() {
-    this.add.emit("Hey Codeevolution")
+    this.add.emit('Hey Codeevolution');
   }
 
 }
