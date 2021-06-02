@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
-import { UsersEditComponent } from './users-edit/users-edit.component';
-import { UsersIndexComponent } from './users-index/users-index.component';
-import { UsersShowComponent } from './users-show/users-show.component';
-import { UsersNewComponent } from './users-new/users-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UsersEditService } from './users-edit/users-edit.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UsersShowService } from './users-show/users-show.service';
-import { UsersIndexService } from './users-index/users-index.service';
+import { UsersComponent } from './index/index.component';
+import { UserNewComponent } from './new/new.component';
+import { UserShowComponent } from './show/show.component';
+import { UserEditComponent } from './edit/edit.component';
+import { ShowFollowingComponent } from './show-following/show-following.component';
+import { ShowFollowersComponent } from './show-followers/show-followers.component';
+import { UsersIndexService } from './index/index.service';
+import { UsersShowService } from './show/show.service';
+import { UsersEditService } from './edit/edit.service';
 
 @NgModule({
   imports: [
@@ -20,11 +22,13 @@ import { UsersIndexService } from './users-index/users-index.service';
     NgbModule,
   ],
   declarations: [
-    UsersEditComponent,
-    UsersIndexComponent,
-    UsersShowComponent,
-    UsersNewComponent,
+    UsersComponent,
+    UserNewComponent,
+    UserShowComponent,
+    UserEditComponent,
+    ShowFollowingComponent,
+    ShowFollowersComponent,
   ],
-  providers: [ UsersEditService, UsersShowService, UsersIndexService ],
+  providers: [ UsersIndexService, UsersShowService, UsersEditService ],
 })
 export class UsersModule { }
