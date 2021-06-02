@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { Router } from '@angular/router'
-import { User } from './models/user'
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { User } from './models/user';
 import { environment } from './../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -10,41 +11,38 @@ export class AuthService {
   BASE_URL: string;
 
   constructor(
-    private http: HttpClient,
-    private _router: Router) 
-  { 
+    private http: HttpClient
+  ) {
     if (environment.production) {
       this.BASE_URL = 'https://railstutorialapi.herokuapp.com/api/';
     } else {
-      this.BASE_URL = "http://localhost:3001/api/";
+      this.BASE_URL = 'http://localhost:3001/api/';
     }
   }
 
-  registerUser(user:User) {
+  registerUser(user: User): Observable<any> {
     const url = `${this.BASE_URL}users`;
-    return this.http.post<any>(url, user,{ withCredentials: true })
+    return this.http.post<any>(url, user, { withCredentials: true });
   }
 
-  loginUser(user:User) {
+  loginUser(user: User): Observable<any> {
     const url = `${this.BASE_URL}login`;
-    return this.http.post<any>(url, user,{ withCredentials: true })
+    return this.http.post<any>(url, user, { withCredentials: true });
   }
 
-  logoutUser() {
-    // localStorage.removeItem('token')
-    // this._router.navigate(['/events'])
+  logoutUser(): Observable<any> {
     const url = `${this.BASE_URL}/logout`;
-    return this.http.delete(url, { withCredentials: true })
+    return this.http.delete(url, { withCredentials: true });
   }
 
-  getToken() {
+  getToken(): any {
   }
 
-  loggedIn() {
+  loggedIn(): any {
   }
 
-  getStatus() {
+  getStatus(): Observable<any> {
     const url = `${this.BASE_URL}sessions`;
-    return this.http.get<any>(url,{ withCredentials: true })
+    return this.http.get<any>(url, { withCredentials: true });
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './ngrx/app.states';
 import { GetStatus } from './ngrx/actions/auth.actions';
@@ -8,10 +8,10 @@ import { GetStatus } from './ngrx/actions/auth.actions';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'sample-app-angular';
   constructor(private store: Store<AppState>){}
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(new GetStatus());
   }
 }
