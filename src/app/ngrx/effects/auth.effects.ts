@@ -131,7 +131,7 @@ export class AuthEffects {
     tap((user) => {
       // localStorage.setItem('token', user.payload.token);
       localStorage.setItem('token', user);
-      this.router.navigateByUrl('/');
+      // this.router.navigateByUrl('/');
     })
   );
 }

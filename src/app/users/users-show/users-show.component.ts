@@ -82,7 +82,7 @@ export class UsersShowComponent implements OnInit {
     this.service.deleteHandleUnfollow(this.id_relationships).subscribe(
       response => {
         if (response.unfollow) {
-          this.id_relationships = null;
+          this.getShowUserPageInfo();
         }
       },
       error => console.log(error),
@@ -94,7 +94,7 @@ export class UsersShowComponent implements OnInit {
     this.service.postHandleFollow(this.id).subscribe(
       response => {
         if (response.follow) {
-          this.id_relationships = null;
+          this.getShowUserPageInfo();
         }
       },
       error => console.log(error),

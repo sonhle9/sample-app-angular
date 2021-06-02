@@ -26,7 +26,7 @@ export class UsersShowService {
 
   deleteHandleUnfollow(id_relationships: any) {
     const url = `${this.BASE_URL}/relationships/`+id_relationships;
-    return this.http.patch<any>(url, { withCredentials: true })
+    return this.http.delete<any>(url, { withCredentials: true })
   }
 
   postHandleFollow(id: number) {
