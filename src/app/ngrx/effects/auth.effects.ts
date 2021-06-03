@@ -19,13 +19,13 @@ import {
 export class AuthEffects {
 
   constructor(
-    private actions: Actions,
+    private actions$: Actions,
     private authService: AuthService,
     private router: Router,
   ) {}
 
-  LogIn = createEffect(
-    () => this.actions.pipe(
+  LogIn$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN))
     .map((action: LogIn) => action.payload)
     .switchMap((payload: User) => {
@@ -39,8 +39,8 @@ export class AuthEffects {
     }
   ));
 
-  LogInSuccess = createEffect(
-    () => this.actions.pipe(
+  LogInSuccess$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap(() => {
       this.router.navigateByUrl('/');
@@ -49,20 +49,21 @@ export class AuthEffects {
   { dispatch: false }
   );
 
-  LogInFailure = createEffect(
-    () => this.actions.pipe(
+  LogInFailure$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN_FAILURE)
   ),
   { dispatch: false }
   );
 
-  SignUp = createEffect(
-    () => this.actions.pipe(
+  SignUp$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.SIGNUP))
     .map((action: SignUp) => action.payload)
     .switchMap((payload: User) => {
       return this.authService.registerUser(payload)
         .map((user) => {
+          console.log('resp of signup', user)
           return new SignUpSuccess({token: user.token, email: payload.email});
         })
         .catch((error) => {
@@ -71,26 +72,27 @@ export class AuthEffects {
     }
   ));
 
-  SignUpSuccess = createEffect(
-    () => this.actions.pipe(
+  SignUpSuccess$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.SIGNUP_SUCCESS),
     tap((user: any) => {
       localStorage.setItem('token', user);
-      this.router.navigateByUrl('/');
+      // this.router.navigateByUrl('/');
     })
   ),
   { dispatch: false }
   );
 
-  SignUpFailure = createEffect(
-    () => this.actions.pipe(
+  SignUpFailure$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.SIGNUP_FAILURE)
   ),
   { dispatch: false }
   );
 
-  LogOut = createEffect(
-    () => this.actions.pipe(
+  LogOut$ = createEffect(
+    () => 
+    this.actions$.pipe(
     ofType(AuthActionTypes.LOGOUT))
     .map((action: LogOut) => action)
     .switchMap(() => {
@@ -98,14 +100,15 @@ export class AuthEffects {
         .map(() => {
           return new LogOutSuccess();
         })
-        .catch((error) => {
+        .catch((error: any) => {
           return Observable.of(new LogOutFailure({ error }));
         });
     }
-  ));
+    )
+  );
 
-  LogOutSuccess = createEffect(
-    () => this.actions.pipe(
+  LogOutSuccess$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.LOGOUT_SUCCESS),
     tap(() => {
       this.router.navigateByUrl('/');
@@ -114,8 +117,8 @@ export class AuthEffects {
   { dispatch: false }
   );
 
-  GetStatus = createEffect(
-    () => this.actions.pipe(
+  GetStatus$ = createEffect(
+    () => this.actions$.pipe(
   ofType(AuthActionTypes.GET_STATUS))
   .switchMap(() => {
     return this.authService.getStatus()
@@ -128,8 +131,8 @@ export class AuthEffects {
   }
   ));
 
-  GetStatusSuccess = createEffect(
-    () => this.actions.pipe(
+  GetStatusSuccess$ = createEffect(
+    () => this.actions$.pipe(
     ofType(AuthActionTypes.GET_STATUS_SUCCESS),
     tap((user: any) => {
       localStorage.setItem('token', user);

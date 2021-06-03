@@ -31,7 +31,7 @@ export class LayoutsHeaderComponent implements OnInit {
     });
   }
 
-  logOut(): void {
+  logOut(): any {
     this.store.dispatch(new LogOut());
   }
 }

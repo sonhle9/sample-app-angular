@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../auth.service';
-import { ToastService } from 'angular-toastify';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ForbiddenNameValidator } from './shared/user-name.validator';
-// import { PasswordValidator } from './shared/password.validator';
 import { Title } from '@angular/platform-browser';
 import { User } from '../../models/user';
 import { Store } from '@ngrx/store';
@@ -26,9 +22,6 @@ export class UsersNewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _auth: AuthService,
-    private _router: Router,
-    private _toastService: ToastService,
     private titleService: Title,
     private store: Store<AppState>
   ) {
