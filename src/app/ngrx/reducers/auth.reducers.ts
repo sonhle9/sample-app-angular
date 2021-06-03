@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: any): State {
     case AuthActionTypes.SIGNUP_FAILURE: {
       return {
         ...state,
-        errorMessage: action.payload.error
+        errorMessage: action.payload.user.error
       };
     }
     case AuthActionTypes.LOGOUT: {
