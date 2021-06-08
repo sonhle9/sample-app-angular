@@ -63,7 +63,7 @@ export class AuthEffects {
     .switchMap((payload: User) => {
       return this.authService.registerUser(payload)
         .map((user) => {
-          console.log('resp of signup', user)
+          console.log('resp of signup', user);
           return new SignUpSuccess({token: user.token, email: payload.email});
         })
         .catch((error) => {
@@ -91,7 +91,7 @@ export class AuthEffects {
   );
 
   LogOut$ = createEffect(
-    () => 
+    () =>
     this.actions$.pipe(
     ofType(AuthActionTypes.LOGOUT))
     .map((action: LogOut) => action)

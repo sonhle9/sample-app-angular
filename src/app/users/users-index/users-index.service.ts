@@ -10,8 +10,8 @@ export class UsersIndexService {
 
   constructor(
     private http: HttpClient,
-  ) 
-  { 
+  )
+  {
     if (environment.production) {
       this.BASE_URL = 'https://railstutorialapi.herokuapp.com/api';
     } else {

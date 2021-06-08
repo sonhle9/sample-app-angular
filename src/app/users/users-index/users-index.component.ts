@@ -69,7 +69,7 @@ export class UsersIndexComponent implements OnInit {
   }
 
   removeUser = (index: number, userid: number) => {
-    let sure = window.confirm('Are you sure?');
+    const sure = window.confirm('Are you sure?');
     if (sure === true) {
       this.service.removeUser(userid, this.page).subscribe(
         (response: any) => {
