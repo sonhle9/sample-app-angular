@@ -7,16 +7,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ShadedStatsComponent implements OnInit {
 
-  @Input('parentData') masterName!: string;
-  @Output() add = new EventEmitter();
+  @Input() user: any;
 
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  addd() {
-    this.add.emit('Hey Codeevolution');
   }
 
 }

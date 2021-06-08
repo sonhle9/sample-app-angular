@@ -32,13 +32,12 @@ export class UsersShowComponent implements OnInit {
     private service: UsersShowService,
     private router: Router,
     private route: ActivatedRoute,
-    private _toastService: ToastService,
+    private toastService: ToastService,
     private store: Store<AppState>,
   ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       const id = parseInt(params.get('id') || '', 10);
       this.id = id;
-      // console.log(params)
     });
     this.getState = this.store.select(selectAuthState);
   }
@@ -107,7 +106,7 @@ export class UsersShowComponent implements OnInit {
       (response: any) => {
         if (response.flash) {
           // flashMessage(...response.flash)
-          this._toastService.success('Micropost deleted');
+          this.toastService.success('Micropost deleted');
           this.getShowUserPageInfo();
         }
       },

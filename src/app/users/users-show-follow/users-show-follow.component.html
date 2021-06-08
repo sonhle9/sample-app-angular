@@ -1,0 +1,59 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <img alt={{user.name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{user.gravatar}}?s=80" />
+      <h1>{{user.name}}</h1>
+      <span><a routerLinkActive="active" routerLink="/users/{{user.id}}">view my profile</a></span>
+      <span><b>Microposts:</b> {{user.micropost}}</span>
+    </section>
+
+    <section class="stats">
+      <div class="stats">
+        <a routerLinkActive="active" routerLink="/users/{{user.id}}/following">
+          <strong id="following" class="stat">
+            {{user.following}}
+          </strong> following
+        </a>
+        <a routerLinkActive="active" routerLink="/users/{{user.id}}/followers">
+          <strong id="followers" class="stat">
+            {{user.followers}}
+          </strong> followers
+        </a>
+      </div>
+
+      <div class="user_avatars">
+        <ng-container *ngIf="xusers.length">
+        <a routerLinkActive="active" *ngFor="let u of xusers" routerLink="/users/{{u.id}}">
+          <img alt={{u.name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{u.gravatar_id}}?s=30" />
+        </a>
+        </ng-container>
+      </div>
+    </section>
+  </aside>
+
+  <div class="col-md-8">
+    <ng-container *ngIf="users.length > 0">
+    <h3>{{ lastUrlSegment | titlecase }}</h3>
+    <ul class="users follow">
+    <li *ngFor="let u of users; index as i">
+      <img alt={{u.name}} class="gravatar" src="https://secure.gravatar.com/avatar/{{u.gravatar_id}}?s={{u.size}}" />
+      <a routerLinkActive="active" routerLink="/users/{{u.id}}">{{u.name}}</a>
+      <ng-container *ngIf="current_user.admin && current_user.id !== u.id">
+        | <a routerLinkActive="active" to="" (click)="removeUser(u.id)">delete</a>
+      </ng-container>
+    </li>
+    </ul>
+    
+    <ngb-pagination 
+      [collectionSize]="total_count" 
+      [pageSize]="itemsPerPage" 
+      [(page)]="page" 
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      [maxSize]="5" 
+      (pageChange)="onPageChange(page)">
+    </ngb-pagination>
+    </ng-container>
+  </div>
+</div>

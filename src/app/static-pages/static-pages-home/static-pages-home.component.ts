@@ -37,7 +37,7 @@ export class StaticPagesHomeComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private service: StaticPagesHomeService,
-    private _toastService: ToastService
+    private toastService: ToastService
   ) {
     this.getState = this.store.select(selectAuthState);
   }
@@ -124,7 +124,7 @@ export class StaticPagesHomeComponent implements OnInit {
         if (data.flash) {
           this.inputEl.nativeElement.blur();
           // flashMessage(...data.flash)
-          this._toastService.success('Micropost created!');
+          this.toastService.success('Micropost created!');
           this.content = '';
           this.image = '';
           // document.querySelector('[name='micropost[image]']').value = null;
@@ -163,7 +163,7 @@ export class StaticPagesHomeComponent implements OnInit {
       (response: any) => {
         if (response.flash) {
           // flashMessage(...response.flash)
-          this._toastService.success('Micropost deleted');
+          this.toastService.success('Micropost deleted');
           this.setFeedsAfterAction();
         }
       },

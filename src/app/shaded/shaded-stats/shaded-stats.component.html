@@ -1,2 +1,14 @@
-<p>shaded-stats works! {{masterName}}</p>
-<button (click)="addd()">Add</button>
+<div class="stats">
+  <a routerLink="/users/{{user.id}}/following" routerLinkActive="active">
+    <strong id="following" class="stat">
+      {{user.following}}
+    </strong>
+    following
+  </a>
+  <a routerLink="/users/{{user.id}}/followers" routerLinkActive="active">
+    <strong id="followers" class="stat">
+      {{user.followers}}
+    </strong>
+    followers
+  </a>
+</div>
